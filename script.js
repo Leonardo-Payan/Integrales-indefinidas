@@ -81,20 +81,43 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Función para calcular integral exponencial
+    // Modificación para manejar fracciones en exponentes de integrales exponenciales
     calculateExpBtn.addEventListener('click', function() {
         // Obtener valores del formulario
         const coefficientA = parseFloat(document.getElementById('exp-coefficient-a').value) || 1;
-        const coefficientArg = parseFloat(document.getElementById('exp-coefficient-arg').value) || 1;
+        const coefficientArgInput = document.getElementById('exp-coefficient-arg').value;
         const variable = document.getElementById('exp-variable').value || 'x';
+        
+        // Procesar el coeficiente del exponente (permitir fracciones como "1/3")
+        let coefficientArg;
+        if (coefficientArgInput.includes('/')) {
+            const parts = coefficientArgInput.split('/');
+            if (parts.length === 2) {
+                const numerator = parseFloat(parts[0]);
+                const denominator = parseFloat(parts[1]);
+                if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                    coefficientArg = numerator / denominator;
+                } else {
+                    resultDiv.innerHTML = '<p>Por favor, introduce un coeficiente válido.</p>';
+                    return;
+                }
+            }
+        } else {
+            coefficientArg = parseFloat(coefficientArgInput) || 1;
+        }
         
         // Calcular la integral
         if (coefficientArg === 0) {
             // Caso especial: integrar A
-            resultDiv.innerHTML = `<p>∫${coefficientA} d${variable} = ${coefficientA}${variable} + C</p>`;
+            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)} d${variable} = ${formatCoefficient(coefficientA)}${variable} + C</p>`;
         } else {
             // Caso general: integrar A*e^(ax)
             const factor = coefficientA / coefficientArg;
-            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)}e<sup>${formatCoefficient(coefficientArg)}${variable}</sup> d${variable} = ${formatCoefficient(factor)}e<sup>${formatCoefficient(coefficientArg)}${variable}</sup> + C</p>`;
+            
+            // Para la visualización, mantener la forma original del input
+            const originalArgDisplay = coefficientArgInput.includes('/') ? coefficientArgInput : formatCoefficient(coefficientArg);
+            
+            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)}e<sup>${originalArgDisplay}${variable}</sup> d${variable} = ${formatCoefficient(factor)}e<sup>${originalArgDisplay}${variable}</sup> + C</p>`;
         }
     });
     
@@ -109,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Función para formatear coeficientes
+    // Función mejorada para formatear coeficientes
     function formatCoefficient(coefficient) {
         if (coefficient === 1) return '';
         if (coefficient === -1) return '-';
