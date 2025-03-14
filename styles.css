@@ -165,3 +165,91 @@ button:hover {
 .warning {
   color: #e74c3c; /* Rojo para advertencias o casos especiales */
 }
+
+/* Estilos para las mejoras visuales de integrales */
+.integral-component {
+  position: relative;
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.integral-component:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.integral-component.coefficient {
+  background: linear-gradient(to bottom, #fff7e6, #ffe0b2);
+  border: 1px solid #e67e22;
+  color: #e67e22;
+}
+
+.integral-component.variable {
+  background: linear-gradient(to bottom, #e6f7ff, #b3e0ff);
+  border: 1px solid #3498db;
+  color: #3498db;
+}
+
+.integral-component.exponent {
+  background: linear-gradient(to bottom, #e6fff7, #b3ffe0);
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+}
+
+.integral-component.operation {
+  font-weight: bold;
+  margin: 0 2px;
+}
+
+.integral-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #34495e;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.integral-tooltip:after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #34495e transparent transparent transparent;
+}
+
+.integral-component:hover .integral-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.integral-result {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-left: 3px solid #3498db;
+}
+
+.integral-expression {
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding: 5px 0;
+}

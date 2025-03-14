@@ -40,51 +40,25 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Calcular la integral
-        if (exponent === -1) {
-            // Caso especial: integrar 1/x
-            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${variable}<sup>-1</sup> d${variable} = ${coefficient}ln|${variable}| + C</p>`;
-        } else {
-            // Caso general: integrar x^n
-            const newExponent = exponent + 1;
-            let result = coefficient / newExponent;
-            
-            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${variable}<sup>${exponent}</sup> d${variable} = ${formatCoefficient(result)}${variable}<sup>${newExponent}</sup> + C</p>`;
-        }
-        
-        // Mostrar los pasos
+        // Mostrar los pasos y resultados mejorados
         showPowerIntegrationSteps(coefficient, variable, exponent);
     });
     
-    // Modificar el event listener del botón para calcular integral trigonométrica
-    calculateTrigBtn.addEventListener('click', function() {
-        // Obtener valores del formulario
-        const coefficient = parseFloat(document.getElementById('trig-coefficient').value) || 1;
-        const trigFunction = document.getElementById('trig-function').value;
-        const aCoefficient = parseFloat(document.getElementById('trig-a').value) || 1;
-        const variable = document.getElementById('trig-variable').value || 'x';
-        const bConstant = parseFloat(document.getElementById('trig-b').value) || 0;
-        
-        // Crear representación del argumento
-        const argument = formatArgument(aCoefficient, variable, bConstant);
-        
-        // Calcular la integral
-        let result;
-        if (trigFunction === 'sin') {
-            // Integral de sin(ax+b)
-            const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(-factor)}cos(${argument}) + C`;
-        } else if (trigFunction === 'cos') {
-            // Integral de cos(ax+b)
-            const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(factor)}sin(${argument}) + C`;
-        }
-        
-        resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${trigFunction}(${argument}) d${variable} = ${result}</p>`;
-        
-        // Mostrar los pasos
-        showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant);
-    });
+// Modificar el event listener del botón para calcular integral trigonométrica
+calculateTrigBtn.addEventListener('click', function() {
+    // Obtener valores del formulario
+    const coefficient = parseFloat(document.getElementById('trig-coefficient').value) || 1;
+    const trigFunction = document.getElementById('trig-function').value;
+    const aCoefficient = parseFloat(document.getElementById('trig-a').value) || 1;
+    const variable = document.getElementById('trig-variable').value || 'x';
+    const bConstant = parseFloat(document.getElementById('trig-b').value) || 0;
+    
+    // Crear representación del argumento
+    const argument = formatArgument(aCoefficient, variable, bConstant);
+    
+    // Mostrar los pasos y resultados mejorados
+    showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant);
+});
     
     // (1)Función para calcular integral exponencial
     // (2)Modificación para manejar fracciones en exponentes de integrales exponenciales
@@ -113,21 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             coefficientArg = parseFloat(coefficientArgInput) || 1;
         }
         
-        // Calcular la integral
-        if (coefficientArg === 0) {
-            // Caso especial: integrar A
-            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)} d${variable} = ${formatCoefficient(coefficientA)}${variable} + C</p>`;
-        } else {
-            // Caso general: integrar A*e^(ax)
-            const factor = coefficientA / coefficientArg;
-            
-            // Para la visualización, mantener la forma original del input
-            const originalArgDisplay = coefficientArgInput.includes('/') ? coefficientArgInput : formatCoefficient(coefficientArg);
-            
-            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)}e<sup>${originalArgDisplay}${variable}</sup> d${variable} = ${formatCoefficient(factor)}e<sup>${originalArgDisplay}${variable}</sup> + C</p>`;
-        }
-        
-        // Mostrar los pasos
+        // Mostrar los pasos y resultados mejorados
         showExpIntegrationSteps(coefficientA, coefficientArg, coefficientArgInput, variable);
     });
     
@@ -329,12 +289,95 @@ document.addEventListener('DOMContentLoaded', function() {
     function showPowerIntegrationSteps(coefficient, variable, exponent) {
         const stepsContainer = document.getElementById('steps-container');
         const stepsContent = document.getElementById('steps-content');
+        const resultDiv = document.getElementById('result');
         
         // Limpiar contenido anterior
         stepsContent.innerHTML = '';
         
         // Mostrar el contenedor de pasos
         stepsContainer.classList.add('active');
+        
+        // Crear una versión mejorada del resultado
+        let enhancedResult = '';
+        
+        if (exponent === -1) {
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficient)}
+                            <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                        </span>
+                        <span class="integral-component variable" tabindex="0">
+                            ${variable}<sup>-1</sup>
+                            <span class="integral-tooltip">Variable con exponente -1 (reciproco)</span>
+                        </span>
+                        d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${coefficient}
+                            <span class="integral-tooltip">Coeficiente original</span>
+                        </span>
+                        ln|<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Logaritmo natural del valor absoluto</span>
+                        </span>| + C
+                    </div>
+                </div>
+            `;
+        } else {
+            const newExponent = exponent + 1;
+            let result = coefficient / newExponent;
+            
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficient)}
+                            <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                        </span>
+                        <span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <sup>
+                            <span class="integral-component exponent" tabindex="0">
+                                ${exponent}
+                                <span class="integral-tooltip">Exponente original</span>
+                            </span>
+                        </sup>
+                        d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Diferencial de la variable</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(result)}
+                            <span class="integral-tooltip">Coeficiente ÷ (exponente+1)</span>
+                        </span>
+                        <span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <sup>
+                            <span class="integral-component exponent" tabindex="0">
+                                ${newExponent}
+                                <span class="integral-tooltip">Exponente + 1</span>
+                            </span>
+                        </sup>
+                        + C
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Actualizar el resultado con la versión mejorada
+        resultDiv.innerHTML = enhancedResult;
         
         // Paso 1: Identificar la forma y componentes
         const step1 = document.createElement('div');
@@ -415,6 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant) {
         const stepsContainer = document.getElementById('steps-container');
         const stepsContent = document.getElementById('steps-content');
+        const resultDiv = document.getElementById('result');
         
         // Limpiar contenido anterior
         stepsContent.innerHTML = '';
@@ -424,6 +468,86 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Crear representación del argumento
         const argument = formatArgument(aCoefficient, variable, bConstant);
+        
+        // Crear una versión mejorada del resultado
+        let enhancedResult = '';
+        let factor;
+        let resultFormula;
+        
+        if (trigFunction === 'sin') {
+            factor = coefficient / aCoefficient;
+            resultFormula = `${formatCoefficient(-factor)}cos(${argument}) + C`;
+            
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficient)}
+                            <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                        </span>
+                        sin(
+                        <span class="integral-component variable" tabindex="0">
+                            ${argument}
+                            <span class="integral-tooltip">Argumento de la función seno</span>
+                        </span>
+                        ) d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(-factor)}
+                            <span class="integral-tooltip">-${coefficient}/${aCoefficient}</span>
+                        </span>
+                        cos(
+                        <span class="integral-component variable" tabindex="0">
+                            ${argument}
+                            <span class="integral-tooltip">El mismo argumento se mantiene</span>
+                        </span>
+                        ) + C
+                    </div>
+                </div>
+            `;
+        } else {
+            factor = coefficient / aCoefficient;
+            resultFormula = `${formatCoefficient(factor)}sin(${argument}) + C`;
+            
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficient)}
+                            <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                        </span>
+                        cos(
+                        <span class="integral-component variable" tabindex="0">
+                            ${argument}
+                            <span class="integral-tooltip">Argumento de la función coseno</span>
+                        </span>
+                        ) d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(factor)}
+                            <span class="integral-tooltip">${coefficient}/${aCoefficient}</span>
+                        </span>
+                        sin(
+                        <span class="integral-component variable" tabindex="0">
+                            ${argument}
+                            <span class="integral-tooltip">El mismo argumento se mantiene</span>
+                        </span>
+                        ) + C
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Actualizar el resultado con la versión mejorada
+        resultDiv.innerHTML = enhancedResult;
         
         // Paso 1: Identificar la forma y componentes
         const step1 = document.createElement('div');
@@ -478,29 +602,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const step4 = document.createElement('div');
         step4.className = 'step';
         
-        let result;
         if (trigFunction === 'sin') {
-            const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(-factor)}cos(<span class="variable">${argument}</span>) + C`;
-            
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
                     <p>∫<span class="coef">${formatCoefficient(coefficient)}</span>sin(<span class="variable">${argument}</span>) d<span class="variable">${variable}</span> = 
                     <span class="coef">${formatCoefficient(coefficient)}</span>·(-cos(<span class="variable">${argument}</span>)/<span class="coef">${aCoefficient}</span>) + C</p>
-                    <p>= ${result}</p>
+                    <p>= <span class="substitution">${resultFormula}</span></p>
                 </div>
             `;
         } else {
-            const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(factor)}sin(<span class="variable">${argument}</span>) + C`;
-            
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
                     <p>∫<span class="coef">${formatCoefficient(coefficient)}</span>cos(<span class="variable">${argument}</span>) d<span class="variable">${variable}</span> = 
                     <span class="coef">${formatCoefficient(coefficient)}</span>·(sin(<span class="variable">${argument}</span>)/<span class="coef">${aCoefficient}</span>) + C</p>
-                    <p>= ${result}</p>
+                    <p>= <span class="substitution">${resultFormula}</span></p>
                 </div>
             `;
         }
@@ -511,12 +628,84 @@ document.addEventListener('DOMContentLoaded', function() {
     function showExpIntegrationSteps(coefficientA, coefficientArg, coefficientArgInput, variable) {
         const stepsContainer = document.getElementById('steps-container');
         const stepsContent = document.getElementById('steps-content');
+        const resultDiv = document.getElementById('result');
         
         // Limpiar contenido anterior
         stepsContent.innerHTML = '';
         
         // Mostrar el contenedor de pasos
         stepsContainer.classList.add('active');
+        
+        // Crear una versión mejorada del resultado
+        let enhancedResult = '';
+        const originalArgDisplay = coefficientArgInput.includes('/') ? coefficientArgInput : formatCoefficient(coefficientArg);
+
+        if (coefficientArg === 0) {
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficientA)}
+                            <span class="integral-tooltip">Coeficiente constante</span>
+                        </span>
+                        d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficientA)}
+                            <span class="integral-tooltip">El mismo coeficiente</span>
+                        </span>
+                        <span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable integrada</span>
+                        </span>
+                        + C
+                    </div>
+                </div>
+            `;
+        } else {
+            const factor = coefficientA / coefficientArg;
+            
+            enhancedResult = `
+                <div class="integral-result">
+                    <div class="integral-expression">
+                        ∫
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(coefficientA)}
+                            <span class="integral-tooltip">Coeficiente constante</span>
+                        </span>
+                        e<sup>
+                        <span class="integral-component exponent" tabindex="0">
+                            ${originalArgDisplay}${variable}
+                            <span class="integral-tooltip">Argumento del exponente</span>
+                        </span>
+                        </sup>
+                        d<span class="integral-component variable" tabindex="0">
+                            ${variable}
+                            <span class="integral-tooltip">Variable de integración</span>
+                        </span>
+                        <span class="integral-component operation">=</span>
+                        <span class="integral-component coefficient" tabindex="0">
+                            ${formatCoefficient(factor)}
+                            <span class="integral-tooltip">${coefficientA}/${coefficientArgInput}</span>
+                        </span>
+                        e<sup>
+                        <span class="integral-component exponent" tabindex="0">
+                            ${originalArgDisplay}${variable}
+                            <span class="integral-tooltip">El mismo exponente</span>
+                        </span>
+                        </sup>
+                        + C
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Actualizar el resultado con la versión mejorada
+        resultDiv.innerHTML = enhancedResult;
         
         // Paso 1: Identificar la forma y componentes
         const step1 = document.createElement('div');
@@ -579,14 +768,13 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         } else {
             const factor = coefficientA / coefficientArg;
-            const originalArgDisplay = coefficientArgInput.includes('/') ? coefficientArgInput : formatCoefficient(coefficientArg);
             
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
                     <p>∫<span class="coef">${formatCoefficient(coefficientA)}</span>e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> d<span class="variable">${variable}</span> = 
-                    <span class="coef">${formatCoefficient(coefficientA)}</span>/<span class="coef">a</span>·e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> + C</p>
-                    <p>= <span class="coef">${formatCoefficient(factor)}</span>e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> + C</p>
+                    <span class="coef">${formatCoefficient(coefficientA)}</span>/<span class="coef">${coefficientArgInput}</span>·e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> + C</p>
+                    <p>= <span class="substitution">${formatCoefficient(factor)}e<sup>${originalArgDisplay}${variable}</sup> + C</span></p>
                 </div>
             `;
         }
