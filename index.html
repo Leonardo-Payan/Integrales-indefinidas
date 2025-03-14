@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solucionador de Integrales Básicas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Solucionador de Integrales Básicas</h1>
+    
+    <div class="container">
+        <div class="input-group">
+            <label for="integral-type">Selecciona el tipo de integral:</label>
+            <select id="integral-type">
+                <option value="power">Integral de potencia (∫xⁿ dx)</option>
+                <option value="trig">Integral trigonométrica básica</option>
+                <option value="exp">Integral exponencial (∫eˣ dx)</option>
+                <option value="log">Integral logarítmica (∫1/x dx)</option>
+            </select>
+        </div>
+        
+        <!-- Formulario para integrales de potencia -->
+        <div id="power-form" class="form-section active">
+            <div class="info-box">
+                Formula: ∫vⁿ dv = vⁿ⁺¹/(n+1) + C (para n ≠ -1)
+            </div>
+            <div class="input-group">
+                <label for="power-variable">Variable de integración:</label>
+                <input type="text" id="power-variable" placeholder="Ejemplo: x" value="x">
+            </div>
+            <div class="input-group">
+                <label for="power-exponent">Exponente (n):</label>
+                <input type="text" id="power-exponent" placeholder="Ejemplo: 2">
+            </div>
+            <button id="calculate-power">Calcular Integral</button>
+        </div>
+        
+        <!-- Formulario para integrales trigonométricas -->
+        <div id="trig-form" class="form-section">
+            <div class="info-box">
+                Fórmulas: ∫sin(x) dx = -cos(x) + C | ∫cos(x) dx = sin(x) + C
+            </div>
+            <div class="input-group">
+                <label for="trig-function">Función trigonométrica:</label>
+                <select id="trig-function">
+                    <option value="sin">sin</option>
+                    <option value="cos">cos</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="trig-variable">Variable de integración:</label>
+                <input type="text" id="trig-variable" placeholder="Ejemplo: x" value="x">
+            </div>
+            <button id="calculate-trig">Calcular Integral</button>
+        </div>
+        
+        <!-- Formulario para integrales exponenciales -->
+        <div id="exp-form" class="form-section">
+            <div class="info-box">
+                Formula: ∫eᵃˣ dx = (1/a)eᵃˣ + C
+            </div>
+            <div class="input-group">
+                <label for="exp-coefficient">Coeficiente (a):</label>
+                <input type="text" id="exp-coefficient" placeholder="Ejemplo: 1" value="1">
+            </div>
+            <div class="input-group">
+                <label for="exp-variable">Variable de integración:</label>
+                <input type="text" id="exp-variable" placeholder="Ejemplo: x" value="x">
+            </div>
+            <button id="calculate-exp">Calcular Integral</button>
+        </div>
+        
+        <!-- Formulario para integrales logarítmicas -->
+        <div id="log-form" class="form-section">
+            <div class="info-box">
+                Formula: ∫(1/x) dx = ln|x| + C
+            </div>
+            <div class="input-group">
+                <label for="log-variable">Variable de integración:</label>
+                <input type="text" id="log-variable" placeholder="Ejemplo: x" value="x">
+            </div>
+            <button id="calculate-log">Calcular Integral</button>
+        </div>
+        
+        <div class="result" id="result">
+            <p>El resultado aparecerá aquí.</p>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
