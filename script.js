@@ -44,21 +44,21 @@ document.addEventListener('DOMContentLoaded', function() {
         showPowerIntegrationSteps(coefficient, variable, exponent);
     });
     
-// Modificar el event listener del botón para calcular integral trigonométrica
-calculateTrigBtn.addEventListener('click', function() {
-    // Obtener valores del formulario
-    const coefficient = parseFloat(document.getElementById('trig-coefficient').value) || 1;
-    const trigFunction = document.getElementById('trig-function').value;
-    const aCoefficient = parseFloat(document.getElementById('trig-a').value) || 1;
-    const variable = document.getElementById('trig-variable').value || 'x';
-    const bConstant = parseFloat(document.getElementById('trig-b').value) || 0;
-    
-    // Crear representación del argumento
-    const argument = formatArgument(aCoefficient, variable, bConstant);
-    
-    // Mostrar los pasos y resultados mejorados
-    showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant);
-});
+    // Modificar el event listener del botón para calcular integral trigonométrica
+    calculateTrigBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficient = parseFloat(document.getElementById('trig-coefficient').value) || 1;
+        const trigFunction = document.getElementById('trig-function').value;
+        const aCoefficient = parseFloat(document.getElementById('trig-a').value) || 1;
+        const variable = document.getElementById('trig-variable').value || 'x';
+        const bConstant = parseFloat(document.getElementById('trig-b').value) || 0;
+        
+        // Crear representación del argumento
+        const argument = formatArgument(aCoefficient, variable, bConstant);
+        
+        // Mostrar los pasos y resultados mejorados
+        showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant);
+    });
     
     // (1)Función para calcular integral exponencial
     // (2)Modificación para manejar fracciones en exponentes de integrales exponenciales
@@ -91,53 +91,57 @@ calculateTrigBtn.addEventListener('click', function() {
         showExpIntegrationSteps(coefficientA, coefficientArg, coefficientArgInput, variable);
     });
     
-    // Función para calcular integral logarítmica
-    // Modificar el event listener del botón para calcular integral logarítmica
+    // Event listener para el botón de calcular integral logarítmica
     calculateLogBtn.addEventListener('click', function() {
-        // Obtener el coeficiente común
+        // Obtener valores del formulario
         const coefficient = parseFloat(document.getElementById('log-coefficient').value) || 1;
-        
-        // Obtener el tipo de función
         const functionType = document.getElementById('log-function-type').value;
         
-        let result = '';
-        let integralText = '';
-        let variable = '';
-        let expression = '';
+        // Variables específicas según el tipo de función
+        let variable, expression;
         
-        // Procesar según el tipo de función
         if (functionType === 'simple') {
-            // Integral simple 1/x
             variable = document.getElementById('log-variable').value || 'x';
-            integralText = `∫${formatCoefficient(coefficient)}/${variable} d${variable}`;
-            result = `${coefficient}ln|${variable}| + C`;
-        } 
-        else if (functionType === 'algebraic') {
-            // Integral algebraica 1/(x+a), 1/x^2, etc.
+            
+            // Mostrar los pasos y resultados mejorados
+            showLogIntegrationSteps(coefficient, functionType, variable);
+            
+        } else if (functionType === 'algebraic') {
             expression = document.getElementById('log-algebraic-expression').value || 'x+1';
             variable = document.getElementById('log-algebraic-variable').value || 'x';
-            integralText = `∫${formatCoefficient(coefficient)}/(${expression}) d${variable}`;
-            result = `${coefficient}ln|${expression}| + C`;
-        } 
-        else if (functionType === 'exponential') {
-            // Integral exponencial 1/e^x, etc.
+            
+            // Mostrar los pasos y resultados mejorados
+            showLogIntegrationSteps(coefficient, functionType, variable, expression);
+            
+        } else if (functionType === 'exponential') {
             const base = document.getElementById('log-exp-base').value || 'e';
             const exponent = document.getElementById('log-exp-exponent').value || 'x';
             variable = document.getElementById('log-exp-variable').value || 'x';
             
-            // Formato especial para base e
-            const baseDisplay = base === 'e' ? 'e' : base;
+            // Crear una representación para mostrar
+            const expression = `${base}<sup>${exponent}</sup>`;
             
-            integralText = `∫${formatCoefficient(coefficient)}/${baseDisplay}<sup>${exponent}</sup> d${variable}`;
-            result = `${coefficient}ln|${baseDisplay}<sup>${exponent}</sup>| + C`;
-            
-            expression = `${baseDisplay}<sup>${exponent}</sup>`;
+            // Mostrar los pasos y resultados mejorados
+            showLogIntegrationSteps(coefficient, functionType, variable, expression);
         }
         
-        resultDiv.innerHTML = `<p>${integralText} = ${result}</p>`;
-        
-        // Mostrar los pasos
-        showLogIntegrationSteps(coefficient, functionType, variable, expression);
+        // Actualizar el resultado para mostrar en la UI si no se hace en showLogIntegrationSteps
+        const resultDiv = document.getElementById('result');
+        if (resultDiv.innerHTML === '<p>El resultado aparecerá aquí.</p>') {
+            let result = '';
+            
+            if (functionType === 'simple') {
+                result = `∫${formatCoefficient(coefficient)}/${variable} d${variable} = ${coefficient}ln|${variable}| + C`;
+            } else if (functionType === 'algebraic') {
+                result = `∫${formatCoefficient(coefficient)}/(${expression}) d${variable} = ${coefficient}ln|${expression}| + C`;
+            } else if (functionType === 'exponential') {
+                const base = document.getElementById('log-exp-base').value || 'e';
+                const exponent = document.getElementById('log-exp-exponent').value || 'x';
+                result = `∫${formatCoefficient(coefficient)}/${base}<sup>${exponent}</sup> d${variable} = ${coefficient}ln|${base}<sup>${exponent}</sup>| + C`;
+            }
+            
+            resultDiv.innerHTML = `<p>${result}</p>`;
+        }
     });
 
     // Manejador para el cambio de tipo de función logarítmica
@@ -152,47 +156,6 @@ calculateTrigBtn.addEventListener('click', function() {
         selectedForm.classList.add('active');
     });
 
-    // Modificar la función para calcular integral logarítmica
-    calculateLogBtn.addEventListener('click', function() {
-        // Obtener el coeficiente común
-        const coefficient = parseFloat(document.getElementById('log-coefficient').value) || 1;
-        
-        // Obtener el tipo de función
-        const functionType = document.getElementById('log-function-type').value;
-        
-        let result = '';
-        let integralText = '';
-        
-        // Procesar según el tipo de función
-        if (functionType === 'simple') {
-            // Integral simple 1/x
-            const variable = document.getElementById('log-variable').value || 'x';
-            integralText = `∫${formatCoefficient(coefficient)}/${variable} d${variable}`;
-            result = `${coefficient}ln|${variable}| + C`;
-        } 
-        else if (functionType === 'algebraic') {
-            // Integral algebraica 1/(x+a), 1/x^2, etc.
-            const expression = document.getElementById('log-algebraic-expression').value || 'x+1';
-            const variable = document.getElementById('log-algebraic-variable').value || 'x';
-            integralText = `∫${formatCoefficient(coefficient)}/(${expression}) d${variable}`;
-            result = `${coefficient}ln|${expression}| + C`;
-        } 
-        else if (functionType === 'exponential') {
-            // Integral exponencial 1/e^x, etc.
-            const base = document.getElementById('log-exp-base').value || 'e';
-            const exponent = document.getElementById('log-exp-exponent').value || 'x';
-            const variable = document.getElementById('log-exp-variable').value || 'x';
-            
-            // Formato especial para base e
-            const baseDisplay = base === 'e' ? 'e' : base;
-            
-            integralText = `∫${formatCoefficient(coefficient)}/${baseDisplay}<sup>${exponent}</sup> d${variable}`;
-            result = `${coefficient}ln|${baseDisplay}<sup>${exponent}</sup>| + C`;
-        }
-        
-        resultDiv.innerHTML = `<p>${integralText} = ${result}</p>`;
-    });
-    
     // Función mejorada para formatear coeficientes
     function formatCoefficient(coefficient) {
         if (coefficient === 1) return '';
@@ -781,54 +744,155 @@ calculateTrigBtn.addEventListener('click', function() {
         stepsContent.appendChild(step4);
     }
 
-    // Función para generar y mostrar los pasos de una integral logarítmica
-    function showLogIntegrationSteps(coefficient, functionType, variable, expression) {
-        const stepsContainer = document.getElementById('steps-container');
-        const stepsContent = document.getElementById('steps-content');
-        
-        // Limpiar contenido anterior
-        stepsContent.innerHTML = '';
-        
-        // Mostrar el contenedor de pasos
-        stepsContainer.classList.add('active');
-        
-        // Paso 1: Identificar la forma y componentes
-        const step1 = document.createElement('div');
-        step1.className = 'step';
-        
-        if (functionType === 'simple') {
-            step1.innerHTML = `
-                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-                <div class="step-content">
-                    <p>La integral tiene la forma <span class="formula">∫A/x dx</span>, donde:</p>
-                    <p><span class="coef">A = ${coefficient}</span></p>
-                    <p><span class="variable">Variable = ${variable}</span></p>
+// Función para generar y mostrar los pasos de una integral logarítmica
+function showLogIntegrationSteps(coefficient, functionType, variable, expression) {
+    const stepsContainer = document.getElementById('steps-container');
+    const stepsContent = document.getElementById('steps-content');
+    const resultDiv = document.getElementById('result'); // Añadir esta línea
+    
+    // Limpiar contenido anterior
+    stepsContent.innerHTML = '';
+    
+    // Mostrar el contenedor de pasos
+    stepsContainer.classList.add('active');
+    
+    // Crear una versión mejorada del resultado - AÑADIR ESTE BLOQUE
+    let enhancedResult = '';
+    
+    if (functionType === 'simple') {
+        enhancedResult = `
+            <div class="integral-result">
+                <div class="integral-expression">
+                    ∫
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                    </span>
+                    /<span class="integral-component variable" tabindex="0">
+                        ${variable}
+                        <span class="integral-tooltip">Variable en el denominador</span>
+                    </span>
+                    d<span class="integral-component variable" tabindex="0">
+                        ${variable}
+                        <span class="integral-tooltip">Variable de integración</span>
+                    </span>
+                    <span class="integral-component operation">=</span>
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente original</span>
+                    </span>
+                    ln|<span class="integral-component variable" tabindex="0">
+                        ${variable}
+                        <span class="integral-tooltip">Logaritmo natural del valor absoluto</span>
+                    </span>| + C
                 </div>
-            `;
-        } else if (functionType === 'algebraic') {
-            step1.innerHTML = `
-                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-                <div class="step-content">
-                    <p>La integral tiene la forma <span class="formula">∫A/(expresión) dx</span>, donde:</p>
-                    <p><span class="coef">A = ${coefficient}</span></p>
-                    <p><span class="variable">Expresión = ${expression}</span></p>
+            </div>
+        `;
+    } else if (functionType === 'algebraic') {
+        enhancedResult = `
+            <div class="integral-result">
+                <div class="integral-expression">
+                    ∫
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                    </span>
+                    /(<span class="integral-component variable" tabindex="0">
+                        ${expression}
+                        <span class="integral-tooltip">Expresión algebraica en el denominador</span>
+                    </span>)
+                    d<span class="integral-component variable" tabindex="0">
+                        ${variable}
+                        <span class="integral-tooltip">Variable de integración</span>
+                    </span>
+                    <span class="integral-component operation">=</span>
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente original</span>
+                    </span>
+                    ln|<span class="integral-component variable" tabindex="0">
+                        ${expression}
+                        <span class="integral-tooltip">Logaritmo natural del valor absoluto</span>
+                    </span>| + C
                 </div>
-            `;
-        } else if (functionType === 'exponential') {
-            const base = document.getElementById('log-exp-base').value || 'e';
-            const exponent = document.getElementById('log-exp-exponent').value || 'x';
-            
-            step1.innerHTML = `
-                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-                <div class="step-content">
-                    <p>La integral tiene la forma <span class="formula">∫A/e^(expresión) dx</span>, donde:</p>
-                    <p><span class="coef">A = ${coefficient}</span></p>
-                    <p><span class="variable">Base = ${base}</span></p>
-                    <p><span class="variable">Exponente = ${exponent}</span></p>
+            </div>
+        `;
+    } else if (functionType === 'exponential') {
+        const base = document.getElementById('log-exp-base').value || 'e';
+        const exponent = document.getElementById('log-exp-exponent').value || 'x';
+        const baseDisplay = base === 'e' ? 'e' : base;
+        
+        enhancedResult = `
+            <div class="integral-result">
+                <div class="integral-expression">
+                    ∫
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                    </span>
+                    /<span class="integral-component variable" tabindex="0">
+                        ${baseDisplay}<sup>${exponent}</sup>
+                        <span class="integral-tooltip">Función exponencial en el denominador</span>
+                    </span>
+                    d<span class="integral-component variable" tabindex="0">
+                        ${variable}
+                        <span class="integral-tooltip">Variable de integración</span>
+                    </span>
+                    <span class="integral-component operation">=</span>
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente original</span>
+                    </span>
+                    ln|<span class="integral-component variable" tabindex="0">
+                        ${baseDisplay}<sup>${exponent}</sup>
+                        <span class="integral-tooltip">Logaritmo natural del valor absoluto</span>
+                    </span>| + C
                 </div>
-            `;
-        }
-        stepsContent.appendChild(step1);
+            </div>
+        `;
+    }
+    
+    // Actualizar el resultado con la versión mejorada - AÑADIR ESTA LÍNEA
+    resultDiv.innerHTML = enhancedResult;
+    
+    // El resto de la función sigue igual...
+    // Paso 1: Identificar la forma y componentes
+    const step1 = document.createElement('div');
+    step1.className = 'step';
+    
+    if (functionType === 'simple') {
+        step1.innerHTML = `
+            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+            <div class="step-content">
+                <p>La integral tiene la forma <span class="formula">∫A/x dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="variable">Variable = ${variable}</span></p>
+            </div>
+        `;
+    } else if (functionType === 'algebraic') {
+        step1.innerHTML = `
+            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+            <div class="step-content">
+                <p>La integral tiene la forma <span class="formula">∫A/(expresión) dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="variable">Expresión = ${expression}</span></p>
+            </div>
+        `;
+    } else if (functionType === 'exponential') {
+        const base = document.getElementById('log-exp-base').value || 'e';
+        const exponent = document.getElementById('log-exp-exponent').value || 'x';
+        
+        step1.innerHTML = `
+            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+            <div class="step-content">
+                <p>La integral tiene la forma <span class="formula">∫A/e^(expresión) dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="variable">Base = ${base}</span></p>
+                <p><span class="variable">Exponente = ${exponent}</span></p>
+            </div>
+        `;
+    }
+    stepsContent.appendChild(step1);
         
         // Paso 2: Aplicar la fórmula de integración
         const step2 = document.createElement('div');
