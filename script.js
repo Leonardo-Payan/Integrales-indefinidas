@@ -1,110 +1,203 @@
 // Esperar a que el documento esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
-  // Referencia a elementos del DOM
-  const integralTypeSelect = document.getElementById('integral-type');
-  const resultDiv = document.getElementById('result');
-  
-  // Referencias a los formularios
-  const powerForm = document.getElementById('power-form');
-  const trigForm = document.getElementById('trig-form');
-  const expForm = document.getElementById('exp-form');
-  const logForm = document.getElementById('log-form');
-  
-  // Referencia a los botones de cálculo
-  const calculatePowerBtn = document.getElementById('calculate-power');
-  const calculateTrigBtn = document.getElementById('calculate-trig');
-  const calculateExpBtn = document.getElementById('calculate-exp');
-  const calculateLogBtn = document.getElementById('calculate-log');
-  
-  // Función para mostrar el formulario correcto
-  integralTypeSelect.addEventListener('change', function() {
-      // Ocultar todos los formularios
-      [powerForm, trigForm, expForm, logForm].forEach(form => {
-          form.classList.remove('active');
-      });
-      
-      // Mostrar el formulario seleccionado
-      const selectedForm = document.getElementById(`${this.value}-form`);
-      selectedForm.classList.add('active');
-  });
-  
-  // Función para calcular integral de potencia
-  calculatePowerBtn.addEventListener('click', function() {
-      const variable = document.getElementById('power-variable').value || 'x';
-      const exponent = parseFloat(document.getElementById('power-exponent').value);
-      
-      if (isNaN(exponent)) {
-          resultDiv.innerHTML = '<p>Por favor, introduce un exponente válido.</p>';
-          return;
-      }
-      
-      if (exponent === -1) {
-          resultDiv.innerHTML = `<p>La integral ∫${variable}<sup>-1</sup> d${variable} = ln|${variable}| + C</p>`;
-      } else {
-          const newExponent = exponent + 1;
-          const denominator = newExponent;
-          resultDiv.innerHTML = `<p>∫${variable}<sup>${exponent}</sup> d${variable} = ${formatFraction(1, denominator)}${variable}<sup>${newExponent}</sup> + C</p>`;
-      }
-  });
-  
-  // Función para calcular integral trigonométrica
-  calculateTrigBtn.addEventListener('click', function() {
-      const trigFunction = document.getElementById('trig-function').value;
-      const variable = document.getElementById('trig-variable').value || 'x';
-      
-      if (trigFunction === 'sin') {
-          resultDiv.innerHTML = `<p>∫sin(${variable}) d${variable} = -cos(${variable}) + C</p>`;
-      } else if (trigFunction === 'cos') {
-          resultDiv.innerHTML = `<p>∫cos(${variable}) d${variable} = sin(${variable}) + C</p>`;
-      }
-  });
-  
-  // Función para calcular integral exponencial
-  calculateExpBtn.addEventListener('click', function() {
-      const coefficient = parseFloat(document.getElementById('exp-coefficient').value) || 1;
-      const variable = document.getElementById('exp-variable').value || 'x';
-      
-      if (coefficient === 0) {
-          resultDiv.innerHTML = `<p>Si el coeficiente es 0, la integral es ∫1 d${variable} = ${variable} + C</p>`;
-      } else {
-          resultDiv.innerHTML = `<p>∫e<sup>${coefficient}${variable}</sup> d${variable} = ${formatFraction(1, coefficient)}e<sup>${coefficient}${variable}</sup> + C</p>`;
-      }
-  });
-  
-  // Función para calcular integral logarítmica
-  calculateLogBtn.addEventListener('click', function() {
-      const variable = document.getElementById('log-variable').value || 'x';
-      resultDiv.innerHTML = `<p>∫(1/${variable}) d${variable} = ln|${variable}| + C</p>`;
-  });
-  
-  // Función para formatear fracciones
-  function formatFraction(numerator, denominator) {
-      if (denominator === 1) {
-          return numerator;
-      }
-      
-      // Simplificar la fracción usando el máximo común divisor
-      const gcd = findGCD(numerator, denominator);
-      numerator = numerator / gcd;
-      denominator = denominator / gcd;
-      
-      if (denominator === 1) {
-          return numerator;
-      }
-      
-      return `<sup>${numerator}</sup>/<sub>${denominator}</sub>`;
-  }
-  
-  // Función para calcular el máximo común divisor
-  function findGCD(a, b) {
-      a = Math.abs(a);
-      b = Math.abs(b);
-      if (b > a) {
-          [a, b] = [b, a];
-      }
-      while (b) {
-          [a, b] = [b, a % b];
-      }
-      return a;
-  }
+    // Referencia a elementos del DOM
+    const integralTypeSelect = document.getElementById('integral-type');
+    const resultDiv = document.getElementById('result');
+    
+    // Referencias a los formularios
+    const powerForm = document.getElementById('power-form');
+    const trigForm = document.getElementById('trig-form');
+    const expForm = document.getElementById('exp-form');
+    const logForm = document.getElementById('log-form');
+    
+    // Referencia a los botones de cálculo
+    const calculatePowerBtn = document.getElementById('calculate-power');
+    const calculateTrigBtn = document.getElementById('calculate-trig');
+    const calculateExpBtn = document.getElementById('calculate-exp');
+    const calculateLogBtn = document.getElementById('calculate-log');
+    
+    // Función para mostrar el formulario correcto
+    integralTypeSelect.addEventListener('change', function() {
+        // Ocultar todos los formularios
+        [powerForm, trigForm, expForm, logForm].forEach(form => {
+            form.classList.remove('active');
+        });
+        
+        // Mostrar el formulario seleccionado
+        const selectedForm = document.getElementById(`${this.value}-form`);
+        selectedForm.classList.add('active');
+    });
+    
+    // Función para calcular integral de potencia
+    calculatePowerBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficient = parseFloat(document.getElementById('power-coefficient').value) || 1;
+        const variable = document.getElementById('power-variable').value || 'x';
+        const exponent = parseFloat(document.getElementById('power-exponent').value);
+        
+        if (isNaN(exponent)) {
+            resultDiv.innerHTML = '<p>Por favor, introduce un exponente válido.</p>';
+            return;
+        }
+        
+        // Calcular la integral
+        if (exponent === -1) {
+            // Caso especial: integrar 1/x
+            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${variable}<sup>-1</sup> d${variable} = ${coefficient}ln|${variable}| + C</p>`;
+        } else {
+            // Caso general: integrar x^n
+            const newExponent = exponent + 1;
+            let result = coefficient / newExponent;
+            
+            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${variable}<sup>${exponent}</sup> d${variable} = ${formatCoefficient(result)}${variable}<sup>${newExponent}</sup> + C</p>`;
+        }
+    });
+    
+    // Función para calcular integral trigonométrica
+    calculateTrigBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficient = parseFloat(document.getElementById('trig-coefficient').value) || 1;
+        const trigFunction = document.getElementById('trig-function').value;
+        const aCoefficient = parseFloat(document.getElementById('trig-a').value) || 1;
+        const variable = document.getElementById('trig-variable').value || 'x';
+        const bConstant = parseFloat(document.getElementById('trig-b').value) || 0;
+        
+        // Crear representación del argumento
+        const argument = formatArgument(aCoefficient, variable, bConstant);
+        
+        // Calcular la integral
+        let result;
+        if (trigFunction === 'sin') {
+            // Integral de sin(ax+b)
+            const factor = coefficient / aCoefficient;
+            result = `${formatCoefficient(-factor)}cos(${argument}) + C`;
+        } else if (trigFunction === 'cos') {
+            // Integral de cos(ax+b)
+            const factor = coefficient / aCoefficient;
+            result = `${formatCoefficient(factor)}sin(${argument}) + C`;
+        }
+        
+        resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}${trigFunction}(${argument}) d${variable} = ${result}</p>`;
+    });
+    
+    // Función para calcular integral exponencial
+    calculateExpBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficientA = parseFloat(document.getElementById('exp-coefficient-a').value) || 1;
+        const coefficientArg = parseFloat(document.getElementById('exp-coefficient-arg').value) || 1;
+        const variable = document.getElementById('exp-variable').value || 'x';
+        
+        // Calcular la integral
+        if (coefficientArg === 0) {
+            // Caso especial: integrar A
+            resultDiv.innerHTML = `<p>∫${coefficientA} d${variable} = ${coefficientA}${variable} + C</p>`;
+        } else {
+            // Caso general: integrar A*e^(ax)
+            const factor = coefficientA / coefficientArg;
+            resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficientA)}e<sup>${formatCoefficient(coefficientArg)}${variable}</sup> d${variable} = ${formatCoefficient(factor)}e<sup>${formatCoefficient(coefficientArg)}${variable}</sup> + C</p>`;
+        }
+    });
+    
+    // Función para calcular integral logarítmica
+    calculateLogBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficient = parseFloat(document.getElementById('log-coefficient').value) || 1;
+        const variable = document.getElementById('log-variable').value || 'x';
+        
+        // Calcular la integral
+        resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}/${variable} d${variable} = ${coefficient}ln|${variable}| + C</p>`;
+    });
+    
+    // Función para formatear coeficientes
+    function formatCoefficient(coefficient) {
+        if (coefficient === 1) return '';
+        if (coefficient === -1) return '-';
+        
+        // Verificar si es un número entero
+        if (Number.isInteger(coefficient)) {
+            return coefficient.toString();
+        }
+        
+        // Para fracciones, simplificarlas
+        if (isRational(coefficient)) {
+            const [numerator, denominator] = decimalToFraction(coefficient);
+            if (denominator === 1) {
+                return numerator.toString();
+            }
+            return `<sup>${numerator}</sup>/<sub>${denominator}</sub>`;
+        }
+        
+        // Para otros números decimales, mostrar con precisión limitada
+        return coefficient.toFixed(3).replace(/\.?0+$/, '');
+    }
+    
+    // Función para formatear el argumento de funciones trigonométricas
+    function formatArgument(a, variable, b) {
+        let result = '';
+        
+        // Añadir ax
+        if (a === 1) {
+            result = variable;
+        } else if (a === -1) {
+            result = `-${variable}`;
+        } else {
+            result = `${a}${variable}`;
+        }
+        
+        // Añadir +b o -b si b no es cero
+        if (b !== 0) {
+            if (b > 0) {
+                result += ` + ${b}`;
+            } else {
+                result += ` - ${Math.abs(b)}`;
+            }
+        }
+        
+        return result;
+    }
+    
+    // Verificar si un número es racional con una precisión razonable
+    function isRational(num, epsilon = 1e-10) {
+        const [numerator, denominator] = decimalToFraction(num, epsilon);
+        return denominator <= 1000;  // Limitar denominadores para fracciones razonables
+    }
+    
+    // Convertir decimal a fracción usando el algoritmo de fracciones continuas
+    function decimalToFraction(decimal, epsilon = 1e-10) {
+        if (Math.abs(decimal) < epsilon) return [0, 1];
+        if (Math.abs(decimal - Math.round(decimal)) < epsilon) return [Math.round(decimal), 1];
+        
+        let sign = decimal < 0 ? -1 : 1;
+        decimal = Math.abs(decimal);
+        
+        // Algoritmo de fracciones continuas
+        let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
+        let b = decimal;
+        
+        do {
+            let a = Math.floor(b);
+            let aux = h1;
+            h1 = a * h1 + h2;
+            h2 = aux;
+            aux = k1;
+            k1 = a * k1 + k2;
+            k2 = aux;
+            b = 1 / (b - a);
+        } while (Math.abs(decimal - h1 / k1) > epsilon * k1);
+        
+        return [sign * h1, k1];
+    }
+    
+    // Función para encontrar el máximo común divisor (para simplificar fracciones)
+    function findGCD(a, b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        if (b > a) {
+            [a, b] = [b, a];
+        }
+        while (b) {
+            [a, b] = [b, a % b];
+        }
+        return a;
+    }
 });

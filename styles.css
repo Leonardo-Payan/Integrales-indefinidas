@@ -19,6 +19,15 @@ h1, h2 {
 .input-group {
   margin-bottom: 15px;
 }
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+.input-row .input-group {
+  flex: 1;
+  margin-bottom: 0;
+}
 label {
   display: block;
   margin-bottom: 8px;
