@@ -342,10 +342,10 @@ document.addEventListener('DOMContentLoaded', function() {
         step1.innerHTML = `
             <div class="step-title">Paso 1: Identificar la forma y componentes</div>
             <div class="step-content">
-                <p>La integral tiene la forma ∫A·x<sup>n</sup> dx, donde:</p>
-                <p>A = ${coefficient}</p>
-                <p>Variable = ${variable}</p>
-                <p>n = ${exponent}</p>
+                <p>La integral tiene la forma <span class="formula">∫A·x<sup>n</sup> dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="variable">Variable = ${variable}</span></p>
+                <p><span class="variable">n = ${exponent}</span></p>
             </div>
         `;
         stepsContent.appendChild(step1);
@@ -358,8 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
             step2.innerHTML = `
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración para n = -1</div>
                 <div class="step-content">
-                    <p>Para n = -1, la fórmula es:</p>
-                    <p>∫A·${variable}<sup>-1</sup> d${variable} = ∫A/(${variable}) d${variable} = A·ln|${variable}| + C</p>
+                    <p><span class="warning">Para n = -1</span>, la fórmula es:</p>
+                    <p><span class="formula">∫A·${variable}<sup>-1</sup> d${variable} = ∫A/(${variable}) d${variable} = A·ln|${variable}| + C</span></p>
                 </div>
             `;
         } else {
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración</div>
                 <div class="step-content">
                     <p>Para n ≠ -1, la fórmula es:</p>
-                    <p>∫A·${variable}<sup>n</sup> d${variable} = A·${variable}<sup>n+1</sup>/(n+1) + C</p>
+                    <p><span class="formula">∫A·${variable}<sup>n</sup> d${variable} = A·${variable}<sup>n+1</sup>/(n+1) + C</span></p>
                 </div>
             `;
         }
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
         step3.innerHTML = `
             <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
             <div class="step-content">
-                <p>Sustituimos A = ${coefficient}, variable = ${variable}, n = ${exponent}</p>
+                <p>Sustituimos <span class="coef">A = ${coefficient}</span>, <span class="variable">variable = ${variable}</span>, <span class="variable">n = ${exponent}</span></p>
             </div>
         `;
         stepsContent.appendChild(step3);
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', function() {
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficient)}/${variable} d${variable} = ${coefficient}·ln|${variable}| + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficient)}</span>/<span class="variable">${variable}</span> d<span class="variable">${variable}</span> = <span class="coef">${coefficient}</span>·ln|<span class="variable">${variable}</span>| + C</p>
                 </div>
             `;
         } else {
@@ -402,9 +402,9 @@ document.addEventListener('DOMContentLoaded', function() {
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficient)}${variable}<sup>${exponent}</sup> d${variable} = 
-                    ${formatCoefficient(coefficient)}·${variable}<sup>${newExponent}</sup>/${newExponent} + C</p>
-                    <p>= ${formatCoefficient(result)}${variable}<sup>${newExponent}</sup> + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficient)}</span><span class="variable">${variable}</span><sup><span class="variable">${exponent}</span></sup> d<span class="variable">${variable}</span> = 
+                    <span class="coef">${formatCoefficient(coefficient)}</span>·<span class="variable">${variable}</span><sup><span class="variable">${newExponent}</span></sup>/<span class="variable">${newExponent}</span> + C</p>
+                    <p>= <span class="coef">${formatCoefficient(result)}</span><span class="variable">${variable}</span><sup><span class="variable">${newExponent}</span></sup> + C</p>
                 </div>
             `;
         }
@@ -431,11 +431,11 @@ document.addEventListener('DOMContentLoaded', function() {
         step1.innerHTML = `
             <div class="step-title">Paso 1: Identificar la forma y componentes</div>
             <div class="step-content">
-                <p>La integral tiene la forma ∫A·${trigFunction}(ax+b) dx, donde:</p>
-                <p>A = ${coefficient}</p>
-                <p>a = ${aCoefficient}</p>
-                <p>Variable = ${variable}</p>
-                <p>b = ${bConstant}</p>
+                <p>La integral tiene la forma <span class="formula">∫A·${trigFunction}(ax+b) dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="coef">a = ${aCoefficient}</span></p>
+                <p><span class="variable">Variable = ${variable}</span></p>
+                <p><span class="coef">b = ${bConstant}</span></p>
             </div>
         `;
         stepsContent.appendChild(step1);
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración para seno</div>
                 <div class="step-content">
                     <p>Para la función seno, la fórmula es:</p>
-                    <p>∫sin(ax+b) dx = -cos(ax+b)/a + C</p>
+                    <p><span class="formula">∫sin(ax+b) dx = -cos(ax+b)/a + C</span></p>
                 </div>
             `;
         } else {
@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración para coseno</div>
                 <div class="step-content">
                     <p>Para la función coseno, la fórmula es:</p>
-                    <p>∫cos(ax+b) dx = sin(ax+b)/a + C</p>
+                    <p><span class="formula">∫cos(ax+b) dx = sin(ax+b)/a + C</span></p>
                 </div>
             `;
         }
@@ -469,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
         step3.innerHTML = `
             <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
             <div class="step-content">
-                <p>Sustituimos A = ${coefficient}, a = ${aCoefficient}, variable = ${variable}, b = ${bConstant}</p>
+                <p>Sustituimos <span class="coef">A = ${coefficient}</span>, <span class="coef">a = ${aCoefficient}</span>, <span class="variable">variable = ${variable}</span>, <span class="coef">b = ${bConstant}</span></p>
             </div>
         `;
         stepsContent.appendChild(step3);
@@ -481,25 +481,25 @@ document.addEventListener('DOMContentLoaded', function() {
         let result;
         if (trigFunction === 'sin') {
             const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(-factor)}cos(${argument}) + C`;
+            result = `${formatCoefficient(-factor)}cos(<span class="variable">${argument}</span>) + C`;
             
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficient)}sin(${argument}) d${variable} = 
-                    ${formatCoefficient(coefficient)}·(-cos(${argument})/${aCoefficient}) + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficient)}</span>sin(<span class="variable">${argument}</span>) d<span class="variable">${variable}</span> = 
+                    <span class="coef">${formatCoefficient(coefficient)}</span>·(-cos(<span class="variable">${argument}</span>)/<span class="coef">${aCoefficient}</span>) + C</p>
                     <p>= ${result}</p>
                 </div>
             `;
         } else {
             const factor = coefficient / aCoefficient;
-            result = `${formatCoefficient(factor)}sin(${argument}) + C`;
+            result = `${formatCoefficient(factor)}sin(<span class="variable">${argument}</span>) + C`;
             
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficient)}cos(${argument}) d${variable} = 
-                    ${formatCoefficient(coefficient)}·(sin(${argument})/${aCoefficient}) + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficient)}</span>cos(<span class="variable">${argument}</span>) d<span class="variable">${variable}</span> = 
+                    <span class="coef">${formatCoefficient(coefficient)}</span>·(sin(<span class="variable">${argument}</span>)/<span class="coef">${aCoefficient}</span>) + C</p>
                     <p>= ${result}</p>
                 </div>
             `;
@@ -524,10 +524,10 @@ document.addEventListener('DOMContentLoaded', function() {
         step1.innerHTML = `
             <div class="step-title">Paso 1: Identificar la forma y componentes</div>
             <div class="step-content">
-                <p>La integral tiene la forma ∫A·e<sup>ax</sup> dx, donde:</p>
-                <p>A = ${coefficientA}</p>
-                <p>a = ${coefficientArgInput}</p>
-                <p>Variable = ${variable}</p>
+                <p>La integral tiene la forma <span class="formula">∫A·e<sup>ax</sup> dx</span>, donde:</p>
+                <p><span class="coef">A = ${coefficientA}</span></p>
+                <p><span class="coef">a = ${coefficientArgInput}</span></p>
+                <p><span class="variable">Variable = ${variable}</span></p>
             </div>
         `;
         stepsContent.appendChild(step1);
@@ -540,8 +540,8 @@ document.addEventListener('DOMContentLoaded', function() {
             step2.innerHTML = `
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración para a = 0</div>
                 <div class="step-content">
-                    <p>Para a = 0, la función se convierte en una constante:</p>
-                    <p>∫A·e<sup>0</sup> dx = ∫A dx = A·x + C</p>
+                    <p><span class="warning">Para a = 0</span>, la función se convierte en una constante:</p>
+                    <p><span class="formula">∫A·e<sup>0</sup> dx = ∫A dx = A·x + C</span></p>
                 </div>
             `;
         } else {
@@ -549,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="step-title">Paso 2: Aplicar la fórmula de integración</div>
                 <div class="step-content">
                     <p>Para la función exponencial, la fórmula es:</p>
-                    <p>∫A·e<sup>ax</sup> dx = (A/a)·e<sup>ax</sup> + C</p>
+                    <p><span class="formula">∫A·e<sup>ax</sup> dx = (A/a)·e<sup>ax</sup> + C</span></p>
                 </div>
             `;
         }
@@ -561,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
         step3.innerHTML = `
             <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
             <div class="step-content">
-                <p>Sustituimos A = ${coefficientA}, a = ${coefficientArgInput}, variable = ${variable}</p>
+                <p>Sustituimos <span class="coef">A = ${coefficientA}</span>, <span class="coef">a = ${coefficientArgInput}</span>, <span class="variable">variable = ${variable}</span></p>
             </div>
         `;
         stepsContent.appendChild(step3);
@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficientA)} d${variable} = ${formatCoefficient(coefficientA)}${variable} + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficientA)}</span> d<span class="variable">${variable}</span> = <span class="coef">${formatCoefficient(coefficientA)}</span><span class="variable">${variable}</span> + C</p>
                 </div>
             `;
         } else {
@@ -584,9 +584,9 @@ document.addEventListener('DOMContentLoaded', function() {
             step4.innerHTML = `
                 <div class="step-title">Paso 4: Desarrollo matemático</div>
                 <div class="step-content">
-                    <p>∫${formatCoefficient(coefficientA)}e<sup>${originalArgDisplay}${variable}</sup> d${variable} = 
-                    ${formatCoefficient(coefficientA)}/a·e<sup>${originalArgDisplay}${variable}</sup> + C</p>
-                    <p>= ${formatCoefficient(factor)}e<sup>${originalArgDisplay}${variable}</sup> + C</p>
+                    <p>∫<span class="coef">${formatCoefficient(coefficientA)}</span>e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> d<span class="variable">${variable}</span> = 
+                    <span class="coef">${formatCoefficient(coefficientA)}</span>/<span class="coef">a</span>·e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> + C</p>
+                    <p>= <span class="coef">${formatCoefficient(factor)}</span>e<sup><span class="coef">${originalArgDisplay}</span><span class="variable">${variable}</span></sup> + C</p>
                 </div>
             `;
         }
@@ -595,124 +595,125 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para generar y mostrar los pasos de una integral logarítmica
     function showLogIntegrationSteps(coefficient, functionType, variable, expression) {
-    const stepsContainer = document.getElementById('steps-container');
-    const stepsContent = document.getElementById('steps-content');
-    
-    // Limpiar contenido anterior
-    stepsContent.innerHTML = '';
-    
-    // Mostrar el contenedor de pasos
-    stepsContainer.classList.add('active');
-    // Paso 1: Identificar la forma y componentes
-    const step1 = document.createElement('div');
-    step1.className = 'step';
-    
-    if (functionType === 'simple') {
-        step1.innerHTML = `
-            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-            <div class="step-content">
-                <p>La integral tiene la forma ∫A/x dx, donde:</p>
-                <p>A = ${coefficient}</p>
-                <p>Variable = ${variable}</p>
-            </div>
-        `;
-    } else if (functionType === 'algebraic') {
-        step1.innerHTML = `
-            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-            <div class="step-content">
-                <p>La integral tiene la forma ∫A/(expresión) dx, donde:</p>
-                <p>A = ${coefficient}</p>
-                <p>Expresión = ${expression}</p>
-            </div>
-        `;
-    } else if (functionType === 'exponential') {
-        const base = document.getElementById('log-exp-base').value || 'e';
-        const exponent = document.getElementById('log-exp-exponent').value || 'x';
+        const stepsContainer = document.getElementById('steps-container');
+        const stepsContent = document.getElementById('steps-content');
         
-        step1.innerHTML = `
-            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
-            <div class="step-content">
-                <p>La integral tiene la forma ∫A/e^(expresión) dx, donde:</p>
-                <p>A = ${coefficient}</p>
-                <p>Base = ${base}</p>
-                <p>Exponente = ${exponent}</p>
-            </div>
-        `;
-    }
-    stepsContent.appendChild(step1);
-    
-    // Paso 2: Aplicar la fórmula de integración
-    const step2 = document.createElement('div');
-    step2.className = 'step';
-    
-    step2.innerHTML = `
-        <div class="step-title">Paso 2: Aplicar la fórmula de integración</div>
-        <div class="step-content">
-            <p>Para funciones de la forma 1/f(x), la fórmula es:</p>
-            <p>∫A·1/f(x) dx = A·ln|f(x)| + C</p>
-        </div>
-    `;
-    stepsContent.appendChild(step2);
-    
-    // Paso 3: Sustitución de valores
-    const step3 = document.createElement('div');
-    step3.className = 'step';
-    
-    if (functionType === 'simple') {
-        step3.innerHTML = `
-            <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
-            <div class="step-content">
-                <p>Sustituimos A = ${coefficient}, f(x) = ${variable}</p>
-            </div>
-        `;
-    } else if (functionType === 'algebraic') {
-        step3.innerHTML = `
-            <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
-            <div class="step-content">
-                <p>Sustituimos A = ${coefficient}, f(x) = ${expression}</p>
-            </div>
-        `;
-    } else if (functionType === 'exponential') {
-        const base = document.getElementById('log-exp-base').value || 'e';
-        const exponent = document.getElementById('log-exp-exponent').value || 'x';
+        // Limpiar contenido anterior
+        stepsContent.innerHTML = '';
         
-        step3.innerHTML = `
-            <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
+        // Mostrar el contenedor de pasos
+        stepsContainer.classList.add('active');
+        
+        // Paso 1: Identificar la forma y componentes
+        const step1 = document.createElement('div');
+        step1.className = 'step';
+        
+        if (functionType === 'simple') {
+            step1.innerHTML = `
+                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+                <div class="step-content">
+                    <p>La integral tiene la forma <span class="formula">∫A/x dx</span>, donde:</p>
+                    <p><span class="coef">A = ${coefficient}</span></p>
+                    <p><span class="variable">Variable = ${variable}</span></p>
+                </div>
+            `;
+        } else if (functionType === 'algebraic') {
+            step1.innerHTML = `
+                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+                <div class="step-content">
+                    <p>La integral tiene la forma <span class="formula">∫A/(expresión) dx</span>, donde:</p>
+                    <p><span class="coef">A = ${coefficient}</span></p>
+                    <p><span class="variable">Expresión = ${expression}</span></p>
+                </div>
+            `;
+        } else if (functionType === 'exponential') {
+            const base = document.getElementById('log-exp-base').value || 'e';
+            const exponent = document.getElementById('log-exp-exponent').value || 'x';
+            
+            step1.innerHTML = `
+                <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+                <div class="step-content">
+                    <p>La integral tiene la forma <span class="formula">∫A/e^(expresión) dx</span>, donde:</p>
+                    <p><span class="coef">A = ${coefficient}</span></p>
+                    <p><span class="variable">Base = ${base}</span></p>
+                    <p><span class="variable">Exponente = ${exponent}</span></p>
+                </div>
+            `;
+        }
+        stepsContent.appendChild(step1);
+        
+        // Paso 2: Aplicar la fórmula de integración
+        const step2 = document.createElement('div');
+        step2.className = 'step';
+        
+        step2.innerHTML = `
+            <div class="step-title">Paso 2: Aplicar la fórmula de integración</div>
             <div class="step-content">
-                <p>Sustituimos A = ${coefficient}, f(x) = ${base}<sup>${exponent}</sup></p>
+                <p>Para funciones de la forma 1/f(x), la fórmula es:</p>
+                <p><span class="formula">∫A·1/f(x) dx = A·ln|f(x)| + C</span></p>
             </div>
         `;
-    }
-    stepsContent.appendChild(step3);
-    
-    // Paso 4: Desarrollo matemático
-    const step4 = document.createElement('div');
-    step4.className = 'step';
-    
-    let integralText = '';
-    let result = '';
-    
-    if (functionType === 'simple') {
-        integralText = `∫${formatCoefficient(coefficient)}/${variable} d${variable}`;
-        result = `${coefficient}ln|${variable}| + C`;
-    } else if (functionType === 'algebraic') {
-        integralText = `∫${formatCoefficient(coefficient)}/(${expression}) d${variable}`;
-        result = `${coefficient}ln|${expression}| + C`;
-    } else if (functionType === 'exponential') {
-        const base = document.getElementById('log-exp-base').value || 'e';
-        const exponent = document.getElementById('log-exp-exponent').value || 'x';
-        const baseDisplay = base === 'e' ? 'e' : base;
+        stepsContent.appendChild(step2);
         
-        integralText = `∫${formatCoefficient(coefficient)}/${baseDisplay}<sup>${exponent}</sup> d${variable}`;
-        result = `${coefficient}ln|${baseDisplay}<sup>${exponent}</sup>| + C`;
-    }
-    
-    step4.innerHTML = `
-        <div class="step-title">Paso 4: Desarrollo matemático</div>
-        <div class="step-content">
-            <p>${integralText} = ${result}</p>
-        </div>
-    `;
-    stepsContent.appendChild(step4);
+        // Paso 3: Sustitución de valores
+        const step3 = document.createElement('div');
+        step3.className = 'step';
+        
+        if (functionType === 'simple') {
+            step3.innerHTML = `
+                <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
+                <div class="step-content">
+                    <p>Sustituimos <span class="coef">A = ${coefficient}</span>, <span class="variable">f(x) = ${variable}</span></p>
+                </div>
+            `;
+        } else if (functionType === 'algebraic') {
+            step3.innerHTML = `
+                <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
+                <div class="step-content">
+                    <p>Sustituimos <span class="coef">A = ${coefficient}</span>, <span class="variable">f(x) = ${expression}</span></p>
+                </div>
+            `;
+        } else if (functionType === 'exponential') {
+            const base = document.getElementById('log-exp-base').value || 'e';
+            const exponent = document.getElementById('log-exp-exponent').value || 'x';
+            
+            step3.innerHTML = `
+                <div class="step-title">Paso 3: Sustituir valores en la fórmula</div>
+                <div class="step-content">
+                    <p>Sustituimos <span class="coef">A = ${coefficient}</span>, <span class="variable">f(x) = ${base}<sup>${exponent}</sup></span></p>
+                </div>
+            `;
+        }
+        stepsContent.appendChild(step3);
+        
+        // Paso 4: Desarrollo matemático
+        const step4 = document.createElement('div');
+        step4.className = 'step';
+        
+        let integralText = '';
+        let result = '';
+        
+        if (functionType === 'simple') {
+            integralText = `∫<span class="coef">${formatCoefficient(coefficient)}</span>/<span class="variable">${variable}</span> d<span class="variable">${variable}</span>`;
+            result = `<span class="coef">${coefficient}</span>ln|<span class="variable">${variable}</span>| + C`;
+        } else if (functionType === 'algebraic') {
+            integralText = `∫<span class="coef">${formatCoefficient(coefficient)}</span>/(<span class="variable">${expression}</span>) d<span class="variable">${variable}</span>`;
+            result = `<span class="coef">${coefficient}</span>ln|<span class="variable">${expression}</span>| + C`;
+        } else if (functionType === 'exponential') {
+            const base = document.getElementById('log-exp-base').value || 'e';
+            const exponent = document.getElementById('log-exp-exponent').value || 'x';
+            const baseDisplay = base === 'e' ? 'e' : base;
+            
+            integralText = `∫<span class="coef">${formatCoefficient(coefficient)}</span>/<span class="variable">${baseDisplay}</span><sup><span class="variable">${exponent}</span></sup> d<span class="variable">${variable}</span>`;
+            result = `<span class="coef">${coefficient}</span>ln|<span class="variable">${baseDisplay}</span><sup><span class="variable">${exponent}</span></sup>| + C`;
+        }
+        
+        step4.innerHTML = `
+            <div class="step-title">Paso 4: Desarrollo matemático</div>
+            <div class="step-content">
+                <p class="substitution">${integralText} = ${result}</p>
+            </div>
+        `;
+        stepsContent.appendChild(step4);
     }
 });

@@ -118,7 +118,6 @@ button:hover {
   display: block;
 }
 
-/* Añadir esto al final del archivo CSS */
 .step-by-step {
     margin-top: 20px;
     padding: 15px;
@@ -145,4 +144,24 @@ button:hover {
 
 .step-content {
     margin-left: 10px;
+}
+/* Añadir al final del archivo styles.css */
+.formula {
+  color: #2ecc71; /* Verde para fórmulas */
+}
+
+.variable {
+  color: #3498db; /* Azul para variables */
+}
+
+.coef {
+  color: #e67e22; /* Naranja para coeficientes */
+}
+
+.substitution {
+  color: #9b59b6; /* Púrpura para sustituciones */
+}
+
+.warning {
+  color: #e74c3c; /* Rojo para advertencias o casos especiales */
 }
