@@ -101,21 +101,55 @@
         
         <!-- Formulario para integrales logarítmicas -->
         <div id="log-form" class="form-section">
-            <div class="info-box">
-                Formula: ∫A/x dx = A·ln|x| + C
-            </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="log-coefficient">Coeficiente (A):</label>
-                    <input type="text" id="log-coefficient" placeholder="Ejemplo: 1" value="1">
-                </div>
-                <div class="input-group">
-                    <label for="log-variable">Variable de integración:</label>
-                    <input type="text" id="log-variable" placeholder="Ejemplo: x" value="x">
-                </div>
-            </div>
-            <button id="calculate-log">Calcular Integral</button>
-        </div>
+          <div class="info-box">
+              Formula: ∫A/f(x) dx = A·ln|f(x)| + C
+          </div>
+          <div class="input-row">
+              <div class="input-group">
+                  <label for="log-coefficient">Coeficiente (A):</label>
+                  <input type="text" id="log-coefficient" placeholder="Ejemplo: 1" value="1">
+              </div>
+              <div class="input-group">
+                  <label for="log-function-type">Tipo de función:</label>
+                  <select id="log-function-type">
+                      <option value="simple">Simple (1/x)</option>
+                      <option value="algebraic">Algebraica (1/(x+a))</option>
+                      <option value="exponential">Exponencial (1/e^x)</option>
+                  </select>
+              </div>
+          </div>
+          <div id="log-simple" class="log-input active">
+              <div class="input-group">
+                  <label for="log-variable">Variable de integración:</label>
+                  <input type="text" id="log-variable" placeholder="Ejemplo: x" value="x">
+              </div>
+          </div>
+          <div id="log-algebraic" class="log-input">
+              <div class="input-group">
+                  <label for="log-algebraic-expression">Expresión algebraica:</label>
+                  <input type="text" id="log-algebraic-expression" placeholder="Ejemplo: x+1, x^2+2" value="x+1">
+              </div>
+              <div class="input-group">
+                  <label for="log-algebraic-variable">Variable de integración:</label>
+                  <input type="text" id="log-algebraic-variable" placeholder="Ejemplo: x" value="x">
+              </div>
+          </div>
+          <div id="log-exponential" class="log-input">
+              <div class="input-group">
+                  <label for="log-exp-base">Base exponencial:</label>
+                  <input type="text" id="log-exp-base" placeholder="Ejemplo: e" value="e">
+              </div>
+              <div class="input-group">
+                  <label for="log-exp-exponent">Exponente:</label>
+                  <input type="text" id="log-exp-exponent" placeholder="Ejemplo: x, 2x+1" value="x">
+              </div>
+              <div class="input-group">
+                  <label for="log-exp-variable">Variable de integración:</label>
+                  <input type="text" id="log-exp-variable" placeholder="Ejemplo: x" value="x">
+              </div>
+          </div>
+          <button id="calculate-log">Calcular Integral</button>
+      </div>
         
         <div class="result" id="result">
             <p>El resultado aparecerá aquí.</p>

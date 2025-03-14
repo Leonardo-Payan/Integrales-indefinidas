@@ -130,8 +130,60 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calcular la integral
         resultDiv.innerHTML = `<p>∫${formatCoefficient(coefficient)}/${variable} d${variable} = ${coefficient}ln|${variable}| + C</p>`;
     });
+
+    // Manejador para el cambio de tipo de función logarítmica
+    document.getElementById('log-function-type').addEventListener('change', function() {
+        // Ocultar todos los formularios de entrada logarítmica
+        document.querySelectorAll('.log-input').forEach(form => {
+            form.classList.remove('active');
+        });
+        
+        // Mostrar el formulario seleccionado
+        const selectedForm = document.getElementById(`log-${this.value}`);
+        selectedForm.classList.add('active');
+    });
+
+    // Modificar la función para calcular integral logarítmica
+    calculateLogBtn.addEventListener('click', function() {
+        // Obtener el coeficiente común
+        const coefficient = parseFloat(document.getElementById('log-coefficient').value) || 1;
+        
+        // Obtener el tipo de función
+        const functionType = document.getElementById('log-function-type').value;
+        
+        let result = '';
+        let integralText = '';
+        
+        // Procesar según el tipo de función
+        if (functionType === 'simple') {
+            // Integral simple 1/x
+            const variable = document.getElementById('log-variable').value || 'x';
+            integralText = `∫${formatCoefficient(coefficient)}/${variable} d${variable}`;
+            result = `${coefficient}ln|${variable}| + C`;
+        } 
+        else if (functionType === 'algebraic') {
+            // Integral algebraica 1/(x+a), 1/x^2, etc.
+            const expression = document.getElementById('log-algebraic-expression').value || 'x+1';
+            const variable = document.getElementById('log-algebraic-variable').value || 'x';
+            integralText = `∫${formatCoefficient(coefficient)}/(${expression}) d${variable}`;
+            result = `${coefficient}ln|${expression}| + C`;
+        } 
+        else if (functionType === 'exponential') {
+            // Integral exponencial 1/e^x, etc.
+            const base = document.getElementById('log-exp-base').value || 'e';
+            const exponent = document.getElementById('log-exp-exponent').value || 'x';
+            const variable = document.getElementById('log-exp-variable').value || 'x';
+            
+            // Formato especial para base e
+            const baseDisplay = base === 'e' ? 'e' : base;
+            
+            integralText = `∫${formatCoefficient(coefficient)}/${baseDisplay}<sup>${exponent}</sup> d${variable}`;
+            result = `${coefficient}ln|${baseDisplay}<sup>${exponent}</sup>| + C`;
+        }
+        
+        resultDiv.innerHTML = `<p>${integralText} = ${result}</p>`;
+    });
     
-    // Función para formatear coeficientes
     // Función mejorada para formatear coeficientes
     function formatCoefficient(coefficient) {
         if (coefficient === 1) return '';
