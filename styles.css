@@ -253,3 +253,17 @@ button:hover {
   margin-bottom: 10px;
   padding: 5px 0;
 }
+
+.chart-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+#integralChart {
+  max-height: 400px;
+}
