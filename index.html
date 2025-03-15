@@ -7,181 +7,197 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1 class="animate-title">Solucionador de Integrales Básicas</h1>
-    
-    <div class="container animate-container">
-        <div class="input-group">
-            <label for="integral-type">Selecciona el tipo de integral:</label>
-            <select id="integral-type">
-                <option value="power">Integral de potencia (∫A·xⁿ dx)</option>
-                <option value="trig">Integral trigonométrica (∫A·sin(ax+b) dx)</option>
-                <option value="exp">Integral exponencial (∫A·eᵃˣ dx)</option>
-                <option value="log">Integral logarítmica (∫A/x dx)</option>
-            </select>
+        <!-- Pantalla de bienvenida -->
+    <div id="welcome-screen" class="welcome-overlay">
+        <div class="welcome-content">
+            <div class="welcome-logo">∫</div>
+            <h1 class="welcome-title">Solucionador de Integrales Básicas</h1>
+            <p class="welcome-subtitle">Tu asistente matemático para resolver integrales de forma sencilla</p>
+            <button id="enter-button" class="welcome-button">
+                Comenzar <span class="arrow">→</span>
+            </button>
         </div>
+    </div>
+    <!-- Justo después de la pantalla de bienvenida -->
+    <div id="main-content" class="main-content main-content-hidden">
+        <!-- Audio para efecto de sonido de inicio -->
+        <audio id="welcome-sound" preload="auto" src="assets/welcome-sound.mp3"></audio>
+        <h1 class="animate-title">Solucionador de Integrales Básicas</h1>
         
-        <!-- Formulario para integrales de potencia -->
-        <div id="power-form" class="form-section active animate-form">
-            <div class="info-box">
-                Formula: ∫A·vⁿ dv = A·vⁿ⁺¹/(n+1) + C (para n ≠ -1)
-            </div>
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="power-coefficient">Coeficiente (A):</label>
-                    <input type="text" id="power-coefficient" placeholder="Ejemplo: 2" value="1">
-                </div>
-                <div class="input-group">
-                    <label for="power-variable">Variable de integración:</label>
-                    <input type="text" id="power-variable" placeholder="Ejemplo: x" value="x">
-                </div>
-            </div>
+        <div class="container animate-container">
             <div class="input-group">
-                <label for="power-exponent">Exponente (n):</label>
-                <input type="text" id="power-exponent" placeholder="Ejemplo: 2">
+                <label for="integral-type">Selecciona el tipo de integral:</label>
+                <select id="integral-type">
+                    <option value="power">Integral de potencia (∫A·xⁿ dx)</option>
+                    <option value="trig">Integral trigonométrica (∫A·sin(ax+b) dx)</option>
+                    <option value="exp">Integral exponencial (∫A·eᵃˣ dx)</option>
+                    <option value="log">Integral logarítmica (∫A/x dx)</option>
+                </select>
             </div>
-            <button id="calculate-power">Calcular Integral</button>
-        </div>
-        
-        <!-- Formulario para integrales trigonométricas -->
-        <div id="trig-form" class="form-section animate-form">
+            
+            <!-- Formulario para integrales de potencia -->
+            <div id="power-form" class="form-section active animate-form">
+                <div class="info-box">
+                    Formula: ∫A·vⁿ dv = A·vⁿ⁺¹/(n+1) + C (para n ≠ -1)
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="power-coefficient">Coeficiente (A):</label>
+                        <input type="text" id="power-coefficient" placeholder="Ejemplo: 2" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="power-variable">Variable de integración:</label>
+                        <input type="text" id="power-variable" placeholder="Ejemplo: x" value="x">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="power-exponent">Exponente (n):</label>
+                    <input type="text" id="power-exponent" placeholder="Ejemplo: 2">
+                </div>
+                <button id="calculate-power">Calcular Integral</button>
+            </div>
+            
+            <!-- Formulario para integrales trigonométricas -->
+            <div id="trig-form" class="form-section animate-form">
+                <div class="info-box">
+                    Fórmulas: ∫sin(ax+b) dx = (-1/a)·cos(ax+b) + C | ∫cos(ax+b) dx = (1/a)·sin(ax+b) + C
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="trig-coefficient">Coeficiente (A):</label>
+                        <input type="text" id="trig-coefficient" placeholder="Ejemplo: 1" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="trig-function">Función trigonométrica:</label>
+                        <select id="trig-function">
+                            <option value="sin">sin</option>
+                            <option value="cos">cos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="trig-a">Coeficiente de la variable (a):</label>
+                        <input type="text" id="trig-a" placeholder="Ejemplo: 1" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="trig-variable">Variable de integración:</label>
+                        <input type="text" id="trig-variable" placeholder="Ejemplo: x" value="x">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="trig-b">Término constante (b):</label>
+                    <input type="text" id="trig-b" placeholder="Ejemplo: 0" value="0">
+                </div>
+                <button id="calculate-trig">Calcular Integral</button>
+            </div>
+            
+            <!-- Formulario para integrales exponenciales -->
+            <div id="exp-form" class="form-section animate-form">
+                <div class="info-box">
+                    Formula: ∫A·eᵃˣ dx = (A/a)·eᵃˣ + C
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="exp-coefficient">Coeficiente (A):</label>
+                        <input type="text" id="exp-coefficient-a" placeholder="Ejemplo: 1" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="exp-coefficient-arg">Coeficiente en el exponente (a):</label>
+                        <input type="text" id="exp-coefficient-arg" placeholder="Ejemplo: 1" value="1">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="exp-variable">Variable de integración:</label>
+                    <input type="text" id="exp-variable" placeholder="Ejemplo: x" value="x">
+                </div>
+                <button id="calculate-exp">Calcular Integral</button>
+            </div>
+            
+            <!-- Formulario para integrales logarítmicas -->
+            <div id="log-form" class="form-section animate-form">
             <div class="info-box">
-                Fórmulas: ∫sin(ax+b) dx = (-1/a)·cos(ax+b) + C | ∫cos(ax+b) dx = (1/a)·sin(ax+b) + C
+                Formula: ∫A/f(x) dx = A·ln|f(x)| + C
             </div>
             <div class="input-row">
                 <div class="input-group">
-                    <label for="trig-coefficient">Coeficiente (A):</label>
-                    <input type="text" id="trig-coefficient" placeholder="Ejemplo: 1" value="1">
+                    <label for="log-coefficient">Coeficiente (A):</label>
+                    <input type="text" id="log-coefficient" placeholder="Ejemplo: 1" value="1">
                 </div>
                 <div class="input-group">
-                    <label for="trig-function">Función trigonométrica:</label>
-                    <select id="trig-function">
-                        <option value="sin">sin</option>
-                        <option value="cos">cos</option>
+                    <label for="log-function-type">Tipo de función:</label>
+                    <select id="log-function-type">
+                        <option value="simple">Simple (1/x)</option>
+                        <option value="algebraic">Algebraica (1/(x+a))</option>
+                        <option value="exponential">Exponencial (1/e^x)</option>
                     </select>
                 </div>
             </div>
-            <div class="input-row">
+            <div id="log-simple" class="log-input active">
                 <div class="input-group">
-                    <label for="trig-a">Coeficiente de la variable (a):</label>
-                    <input type="text" id="trig-a" placeholder="Ejemplo: 1" value="1">
-                </div>
-                <div class="input-group">
-                    <label for="trig-variable">Variable de integración:</label>
-                    <input type="text" id="trig-variable" placeholder="Ejemplo: x" value="x">
+                    <label for="log-variable">Variable de integración:</label>
+                    <input type="text" id="log-variable" placeholder="Ejemplo: x" value="x">
                 </div>
             </div>
-            <div class="input-group">
-                <label for="trig-b">Término constante (b):</label>
-                <input type="text" id="trig-b" placeholder="Ejemplo: 0" value="0">
-            </div>
-            <button id="calculate-trig">Calcular Integral</button>
-        </div>
-        
-        <!-- Formulario para integrales exponenciales -->
-        <div id="exp-form" class="form-section animate-form">
-            <div class="info-box">
-                Formula: ∫A·eᵃˣ dx = (A/a)·eᵃˣ + C
-            </div>
-            <div class="input-row">
+            <div id="log-algebraic" class="log-input">
                 <div class="input-group">
-                    <label for="exp-coefficient">Coeficiente (A):</label>
-                    <input type="text" id="exp-coefficient-a" placeholder="Ejemplo: 1" value="1">
+                    <label for="log-algebraic-expression">Expresión algebraica:</label>
+                    <input type="text" id="log-algebraic-expression" placeholder="Ejemplo: x+1, x^2+2" value="x+1">
                 </div>
                 <div class="input-group">
-                    <label for="exp-coefficient-arg">Coeficiente en el exponente (a):</label>
-                    <input type="text" id="exp-coefficient-arg" placeholder="Ejemplo: 1" value="1">
+                    <label for="log-algebraic-variable">Variable de integración:</label>
+                    <input type="text" id="log-algebraic-variable" placeholder="Ejemplo: x" value="x">
                 </div>
             </div>
-            <div class="input-group">
-                <label for="exp-variable">Variable de integración:</label>
-                <input type="text" id="exp-variable" placeholder="Ejemplo: x" value="x">
+            <div id="log-exponential" class="log-input">
+                <div class="input-group">
+                    <label for="log-exp-base">Base exponencial:</label>
+                    <input type="text" id="log-exp-base" placeholder="Ejemplo: e" value="e">
+                </div>
+                <div class="input-group">
+                    <label for="log-exp-exponent">Exponente:</label>
+                    <input type="text" id="log-exp-exponent" placeholder="Ejemplo: x, 2x+1" value="x">
+                </div>
+                <div class="input-group">
+                    <label for="log-exp-variable">Variable de integración:</label>
+                    <input type="text" id="log-exp-variable" placeholder="Ejemplo: x" value="x">
+                </div>
             </div>
-            <button id="calculate-exp">Calcular Integral</button>
+            <button id="calculate-log">Calcular Integral</button>
         </div>
-        
-        <!-- Formulario para integrales logarítmicas -->
-        <div id="log-form" class="form-section animate-form">
-          <div class="info-box">
-              Formula: ∫A/f(x) dx = A·ln|f(x)| + C
-          </div>
-          <div class="input-row">
-              <div class="input-group">
-                  <label for="log-coefficient">Coeficiente (A):</label>
-                  <input type="text" id="log-coefficient" placeholder="Ejemplo: 1" value="1">
-              </div>
-              <div class="input-group">
-                  <label for="log-function-type">Tipo de función:</label>
-                  <select id="log-function-type">
-                      <option value="simple">Simple (1/x)</option>
-                      <option value="algebraic">Algebraica (1/(x+a))</option>
-                      <option value="exponential">Exponencial (1/e^x)</option>
-                  </select>
-              </div>
-          </div>
-          <div id="log-simple" class="log-input active">
-              <div class="input-group">
-                  <label for="log-variable">Variable de integración:</label>
-                  <input type="text" id="log-variable" placeholder="Ejemplo: x" value="x">
-              </div>
-          </div>
-          <div id="log-algebraic" class="log-input">
-              <div class="input-group">
-                  <label for="log-algebraic-expression">Expresión algebraica:</label>
-                  <input type="text" id="log-algebraic-expression" placeholder="Ejemplo: x+1, x^2+2" value="x+1">
-              </div>
-              <div class="input-group">
-                  <label for="log-algebraic-variable">Variable de integración:</label>
-                  <input type="text" id="log-algebraic-variable" placeholder="Ejemplo: x" value="x">
-              </div>
-          </div>
-          <div id="log-exponential" class="log-input">
-              <div class="input-group">
-                  <label for="log-exp-base">Base exponencial:</label>
-                  <input type="text" id="log-exp-base" placeholder="Ejemplo: e" value="e">
-              </div>
-              <div class="input-group">
-                  <label for="log-exp-exponent">Exponente:</label>
-                  <input type="text" id="log-exp-exponent" placeholder="Ejemplo: x, 2x+1" value="x">
-              </div>
-              <div class="input-group">
-                  <label for="log-exp-variable">Variable de integración:</label>
-                  <input type="text" id="log-exp-variable" placeholder="Ejemplo: x" value="x">
-              </div>
-          </div>
-          <button id="calculate-log">Calcular Integral</button>
-      </div>
-        
-        <div class="result animate-result" id="result">
-            <p>El resultado aparecerá aquí.</p>
+            
+            <div class="result animate-result" id="result">
+                <p>El resultado aparecerá aquí.</p>
+            </div>
+            <div class="chart-container animate-chart">
+                <canvas id="integralChart"></canvas>
+            </div>
+        <!-- Añadir esto después de la div con id="result" -->
+        <div class="step-by-step" id="steps-container">
+            <h3>Solución paso a paso</h3>
+            <div id="steps-content">
+                <!-- Aquí se mostrarán los pasos -->
+            </div>
         </div>
-        <div class="chart-container animate-chart">
-            <canvas id="integralChart"></canvas>
         </div>
-      <!-- Añadir esto después de la div con id="result" -->
-      <div class="step-by-step" id="steps-container">
-        <h3>Solución paso a paso</h3>
-        <div id="steps-content">
-            <!-- Aquí se mostrarán los pasos -->
-        </div>
-      </div>
+        <footer class="site-footer animate-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="math-symbol animate-integral-symbol">∫</div>
+                </div>
+                <div class="footer-info">
+                    <p class="copyright">© 2025 | Diseñado y desarrollado por Leonardo Payan Lara</p>
+                    <p class="tagline">Solucionador de Integrales Básicas | <span class="highlight">Tu asistente matemático</span></p>
+                </div>
+                <div class="footer-contact">
+                    <a href="mailto:leonardopayan22@gmail.com" class="contact-link">
+                        <span class="contact-icon">✉</span>
+                        <span class="contact-text">Contacto</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
     </div>
-    <footer class="site-footer animate-footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="math-symbol animate-integral-symbol">∫</div>
-            </div>
-            <div class="footer-info">
-                <p class="copyright">© 2025 | Diseñado y desarrollado por Leonardo Payan Lara</p>
-                <p class="tagline">Solucionador de Integrales Básicas | <span class="highlight">Tu asistente matemático</span></p>
-            </div>
-            <div class="footer-contact">
-                <a href="mailto:leonardopayan22@gmail.com" class="contact-link">
-                    <span class="contact-icon">✉</span>
-                    <span class="contact-text">Contacto</span>
-                </a>
-            </div>
-        </div>
-    </footer>
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>

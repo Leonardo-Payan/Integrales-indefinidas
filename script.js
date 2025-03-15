@@ -41,20 +41,41 @@ function createChart(originalFunction, integralFunction, variable) {
 }
 // Esperar a que el documento esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
-    // Animación de entrada
-    // La animación se maneja automáticamente con las clases CSS
+    // Referencias para la pantalla de bienvenida
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const enterButton = document.getElementById('enter-button');
+    const mainContent = document.getElementById('main-content');
+    const welcomeSound = document.getElementById('welcome-sound');
     
-    // Opcional: Si quieres que las animaciones solo se muestren en la primera carga
-    // y no cuando el usuario regrese a la página:
-    if (!sessionStorage.getItem('animationShown')) {
-        sessionStorage.setItem('animationShown', 'true');
-    } else {
-        // Si ya se mostró la animación, quitar las clases de animación
-        document.querySelectorAll('[class*="animate-"]').forEach(function(el) {
-            el.style.opacity = '1';
-            el.style.animation = 'none';
+    // Función para entrar a la aplicación
+    enterButton.addEventListener('click', function() {
+        // Reproducir sonido
+        welcomeSound.play().catch(err => {
+            console.error('Error al reproducir sonido:', err);
         });
-    }
+        
+        // Ocultar pantalla de bienvenida
+        welcomeScreen.classList.add('welcome-hidden');
+        
+        // Mostrar contenido principal
+        mainContent.classList.remove('main-content-hidden');
+        
+        // Iniciar animaciones después de un breve retraso
+        setTimeout(() => {
+            // Manejar las animaciones solo dentro de este bloque
+            if (!sessionStorage.getItem('animationShown')) {
+                sessionStorage.setItem('animationShown', 'true');
+                // Las animaciones ya estarán aplicadas por las clases en el HTML
+            } else {
+                // Si ya se mostró la animación, quitar las clases de animación
+                document.querySelectorAll('[class*="animate-"]').forEach(function(el) {
+                    el.style.opacity = '1';
+                    el.style.animation = 'none';
+                });
+            }
+        }, 300);
+    });
+    
     // Referencia a elementos del DOM
     const integralTypeSelect = document.getElementById('integral-type');
     const resultDiv = document.getElementById('result');
