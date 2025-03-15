@@ -57,23 +57,50 @@ document.addEventListener('DOMContentLoaded', function() {
         // Ocultar pantalla de bienvenida
         welcomeScreen.classList.add('welcome-hidden');
         
-        // Mostrar contenido principal
+        // Preparar el contenido principal: quitamos la clase hidden pero mantenemos opacidad 0
         mainContent.classList.remove('main-content-hidden');
+        mainContent.style.opacity = '0';
         
-        // Iniciar animaciones después de un breve retraso
-        setTimeout(() => {
-            // Manejar las animaciones solo dentro de este bloque
-            if (!sessionStorage.getItem('animationShown')) {
-                sessionStorage.setItem('animationShown', 'true');
-                // Las animaciones ya estarán aplicadas por las clases en el HTML
-            } else {
-                // Si ya se mostró la animación, quitar las clases de animación
-                document.querySelectorAll('[class*="animate-"]').forEach(function(el) {
-                    el.style.opacity = '1';
-                    el.style.animation = 'none';
-                });
-            }
-        }, 300);
+        // Aplicamos las animaciones inmediatamente, sin delay
+        if (!sessionStorage.getItem('animationShown')) {
+            sessionStorage.setItem('animationShown', 'true');
+            
+            // Agregar las clases de animación
+            const title = document.querySelector('h1');
+            if (title) title.classList.add('animate-title');
+            
+            const container = document.querySelector('.container');
+            if (container) container.classList.add('animate-container');
+            
+            document.querySelectorAll('.form-section').forEach(function(el) {
+                el.classList.add('animate-form');
+            });
+            
+            const result = document.getElementById('result');
+            if (result) result.classList.add('animate-result');
+            
+            const chartContainer = document.querySelector('.chart-container');
+            if (chartContainer) chartContainer.classList.add('animate-chart');
+            
+            const footer = document.querySelector('.site-footer');
+            if (footer) footer.classList.add('animate-footer');
+            
+            const integralSymbol = document.querySelector('.math-symbol');
+            if (integralSymbol) integralSymbol.classList.add('animate-integral-symbol');
+            
+            // Una vez aplicadas las clases, hacemos visible todo con una transición suave
+            setTimeout(() => {
+                mainContent.style.opacity = '1';
+                mainContent.style.transition = 'opacity 0.3s ease';
+            }, 50);
+        } else {
+            // Si ya se mostró la animación, simplemente hacemos todo visible inmediatamente
+            mainContent.style.opacity = '1';
+            document.querySelectorAll('[class*="animate-"]').forEach(function(el) {
+                el.style.opacity = '1';
+                el.style.animation = 'none';
+            });
+        }
     });
     
     // Referencia a elementos del DOM
