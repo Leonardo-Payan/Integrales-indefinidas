@@ -47,6 +47,122 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const welcomeSound = document.getElementById('welcome-sound');
     
+    // AÑADE LAS FUNCIONES DE EASTER EGG AQUÍ
+    // Función para crear y configurar los easter eggs
+    function setupEasterEggs() {
+        // Definir los easter eggs para cada tipo de integral
+        const easterEggs = {
+          'power': {
+            position: 'top-right',
+            image: 'assets/easter-eggs/img/Taylor_Swift.jpg',
+            caption: "OMGG!! IT'S TAYLOR SWIFT!!",
+            sound: 'assets/easter-eggs/sounds/New_Romantics.mp3'
+          },
+          'trig': {
+            position: 'bottom-left',
+            image: 'assets/easter-eggs/img/Sabrina_Carpenter.jpg',
+            caption: 'Lit si',
+            sound: 'assets/easter-eggs/sounds/Espresso.mp3'
+          },
+          'exp': {
+            position: 'top-left',
+            image: 'assets/easter-eggs/img/Olivia_Rodrigo.jpg',
+            caption: 'We love you too Olivia Rodrigoo <33',
+            sound: 'assets/easter-eggs/sounds/All_American_Bitch.mp3'
+          },
+          'log': {
+            position: 'bottom-right',
+            image: 'assets/easter-eggs/img/Luis_Miguel.jpg',
+            caption: 'Está fuerte el sol...',
+            sound: 'assets/easter-eggs/sounds/Cuando_Calienta_el_Sol.mp3'
+          }
+        };
+        
+        // Crear el contenedor modal para mostrar las imágenes
+        const modal = document.createElement('div');
+        modal.className = 'easter-egg-modal';
+        modal.innerHTML = `
+          <div class="easter-egg-content">
+            <span class="close-easter-egg">&times;</span>
+            <img id="easter-egg-image" src="" alt="Easter egg">
+            <p id="easter-egg-caption"></p>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Cerrar el modal al hacer clic en X
+        const closeBtn = modal.querySelector('.close-easter-egg');
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('show');
+          // Eliminamos el sonido de cierre
+        });
+        
+        // Cerrar el modal al hacer clic fuera de la imagen
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('show');
+            // Eliminamos el sonido de cierre
+          }
+        });
+        
+        // Crear y añadir puntos de easter egg para cada tipo de formulario
+        Object.keys(easterEggs).forEach(formType => {
+          const formSection = document.getElementById(`${formType}-form`);
+          if (!formSection) return;
+          
+          const eggData = easterEggs[formType];
+          const eggDot = document.createElement('div');
+          eggDot.className = `easter-egg-dot ${eggData.position}`;
+          
+          // Añadir un pequeño efecto de brillo ocasional para dar pistas sutiles
+          setInterval(() => {
+            eggDot.classList.add('twinkle');
+            setTimeout(() => eggDot.classList.remove('twinkle'), 500);
+          }, Math.random() * 20000 + 15000); // Entre 15-35 segundos
+          
+          formSection.appendChild(eggDot);
+          
+          // Configurar el evento de clic
+          eggDot.addEventListener('click', () => {
+            const img = document.getElementById('easter-egg-image');
+            const caption = document.getElementById('easter-egg-caption');
+            
+            img.src = eggData.image;
+            caption.textContent = eggData.caption;
+            modal.classList.add('show');
+            
+            // Reproducir el sonido específico para este easter egg
+            playSound(eggData.sound);
+            
+            // Registrar que el usuario encontró este easter egg
+            markEasterEggFound(formType);
+          });
+        });
+      }
+  
+      // Función para reproducir sonidos
+      function playSound(src) {
+        const sound = new Audio(src);
+        sound.volume = 0.5;
+        sound.play().catch(err => console.error('Error playing sound:', err));
+      }
+  
+      // Función para registrar easter eggs encontrados
+      function markEasterEggFound(type) {
+        let foundEggs = JSON.parse(localStorage.getItem('foundEasterEggs') || '[]');
+        if (!foundEggs.includes(type)) {
+          foundEggs.push(type);
+          localStorage.setItem('foundEasterEggs', JSON.stringify(foundEggs));
+          
+          // Si el usuario ha encontrado todos, mostrar un mensaje especial
+          if (foundEggs.length === 4) {
+            setTimeout(() => {
+              alert('¡Felicidades! Has encontrado todos los easter eggs cantautores. A hidratarse, porque está fuerte el sol.');
+            }, 1500);
+          }
+        }
+      }
+
     // Función para entrar a la aplicación
     enterButton.addEventListener('click', function() {
         // Reproducir sonido
@@ -101,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 el.style.animation = 'none';
             });
         }
+        setTimeout(setupEasterEggs, 1000);
     });
     
     // Referencia a elementos del DOM
