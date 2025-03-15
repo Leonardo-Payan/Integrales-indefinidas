@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
           setInterval(() => {
             eggDot.classList.add('twinkle');
             setTimeout(() => eggDot.classList.remove('twinkle'), 500);
-          }, Math.random() * 20000 + 15000); // Entre 15-35 segundos
+          }, Math.random() * 5000 + 5000); // Entre 5-10 segundos
           
           formSection.appendChild(eggDot);
           
