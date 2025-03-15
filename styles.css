@@ -353,3 +353,79 @@ button:hover {
       justify-content: center;
   }
 }
+/* Animaciones de entrada */
+@keyframes fadeInScale {
+  0% {
+      opacity: 0;
+      transform: scale(0.8);
+  }
+  100% {
+      opacity: 1;
+      transform: scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+      opacity: 0;
+      transform: translateY(40px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes integralSymbolAnimation {
+  0% {
+      opacity: 0;
+      transform: translateY(-30px) rotate(-20deg);
+  }
+  70% {
+      transform: translateY(5px) rotate(5deg);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0) rotate(0);
+  }
+}
+
+.animate-title {
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+.animate-container {
+  animation: slideInUp 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animate-form {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.6s;
+}
+
+.animate-result {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.8s;
+}
+
+.animate-chart {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 1s;
+}
+
+.animate-footer {
+  opacity: 0;
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 1.2s;
+}
+
+.animate-integral-symbol {
+  animation: integralSymbolAnimation 1.2s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}

@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Solucionador de Integrales Básicas</h1>
+    <h1 class="animate-title">Solucionador de Integrales Básicas</h1>
     
-    <div class="container">
+    <div class="container animate-container">
         <div class="input-group">
             <label for="integral-type">Selecciona el tipo de integral:</label>
             <select id="integral-type">
@@ -21,7 +21,7 @@
         </div>
         
         <!-- Formulario para integrales de potencia -->
-        <div id="power-form" class="form-section active">
+        <div id="power-form" class="form-section active animate-form">
             <div class="info-box">
                 Formula: ∫A·vⁿ dv = A·vⁿ⁺¹/(n+1) + C (para n ≠ -1)
             </div>
@@ -43,7 +43,7 @@
         </div>
         
         <!-- Formulario para integrales trigonométricas -->
-        <div id="trig-form" class="form-section">
+        <div id="trig-form" class="form-section animate-form">
             <div class="info-box">
                 Fórmulas: ∫sin(ax+b) dx = (-1/a)·cos(ax+b) + C | ∫cos(ax+b) dx = (1/a)·sin(ax+b) + C
             </div>
@@ -78,7 +78,7 @@
         </div>
         
         <!-- Formulario para integrales exponenciales -->
-        <div id="exp-form" class="form-section">
+        <div id="exp-form" class="form-section animate-form">
             <div class="info-box">
                 Formula: ∫A·eᵃˣ dx = (A/a)·eᵃˣ + C
             </div>
@@ -100,7 +100,7 @@
         </div>
         
         <!-- Formulario para integrales logarítmicas -->
-        <div id="log-form" class="form-section">
+        <div id="log-form" class="form-section animate-form">
           <div class="info-box">
               Formula: ∫A/f(x) dx = A·ln|f(x)| + C
           </div>
@@ -151,10 +151,10 @@
           <button id="calculate-log">Calcular Integral</button>
       </div>
         
-        <div class="result" id="result">
+        <div class="result animate-result" id="result">
             <p>El resultado aparecerá aquí.</p>
         </div>
-        <div class="chart-container">
+        <div class="chart-container animate-chart">
             <canvas id="integralChart"></canvas>
         </div>
       <!-- Añadir esto después de la div con id="result" -->
@@ -165,10 +165,10 @@
         </div>
       </div>
     </div>
-    <footer class="site-footer">
+    <footer class="site-footer animate-footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <div class="math-symbol">∫</div>
+                <div class="math-symbol animate-integral-symbol">∫</div>
             </div>
             <div class="footer-info">
                 <p class="copyright">© 2025 | Diseñado y desarrollado por Leonardo Payan Lara</p>

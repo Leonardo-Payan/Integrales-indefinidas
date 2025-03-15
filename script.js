@@ -41,6 +41,20 @@ function createChart(originalFunction, integralFunction, variable) {
 }
 // Esperar a que el documento esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
+    // Animación de entrada
+    // La animación se maneja automáticamente con las clases CSS
+    
+    // Opcional: Si quieres que las animaciones solo se muestren en la primera carga
+    // y no cuando el usuario regrese a la página:
+    if (!sessionStorage.getItem('animationShown')) {
+        sessionStorage.setItem('animationShown', 'true');
+    } else {
+        // Si ya se mostró la animación, quitar las clases de animación
+        document.querySelectorAll('[class*="animate-"]').forEach(function(el) {
+            el.style.opacity = '1';
+            el.style.animation = 'none';
+        });
+    }
     // Referencia a elementos del DOM
     const integralTypeSelect = document.getElementById('integral-type');
     const resultDiv = document.getElementById('result');
