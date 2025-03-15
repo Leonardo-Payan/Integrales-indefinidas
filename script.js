@@ -94,14 +94,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const closeBtn = modal.querySelector('.close-easter-egg');
         closeBtn.addEventListener('click', () => {
           modal.classList.remove('show');
-          // Eliminamos el sonido de cierre
         });
         
         // Cerrar el modal al hacer clic fuera de la imagen
         modal.addEventListener('click', (e) => {
           if (e.target === modal) {
             modal.classList.remove('show');
-            // Eliminamos el sonido de cierre
           }
         });
         
