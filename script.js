@@ -278,9 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showTrigIntegrationSteps(coefficient, trigFunction, aCoefficient, variable, bConstant);
     });
     
-    // (1)Función para calcular integral exponencial
-    // (2)Modificación para manejar fracciones en exponentes de integrales exponenciales
-    // (3)Modificar el event listener del botón para calcular integral exponencial
+    // Función para calcular integral exponencial
     calculateExpBtn.addEventListener('click', function() {
         // Obtener valores del formulario
         const coefficientA = parseFloat(document.getElementById('exp-coefficient-a').value) || 1;
