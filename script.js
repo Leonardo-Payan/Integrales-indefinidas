@@ -245,6 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar el formulario seleccionado
         const selectedForm = document.getElementById(`${this.value}-form`);
         selectedForm.classList.add('active');
+        
+        // Ocultar el contenedor del gráfico si es integral triple
+        const chartContainer = document.querySelector('.chart-container');
+        if (this.value === 'triple') {
+            chartContainer.style.display = 'none';
+        } else {
+            chartContainer.style.display = 'block';
+        }
     });
     
     // Función para calcular integral de potencia
@@ -1276,6 +1284,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Función para mostrar los pasos de una integral triple
     function showTripleIntegrationSteps(coefficient, variableX, variableY, variableZ, exponentX, exponentY, exponentZ) {
+        destroyChart();
         const stepsContainer = document.getElementById('steps-container');
         const stepsContent = document.getElementById('steps-content');
         const resultDiv = document.getElementById('result');
