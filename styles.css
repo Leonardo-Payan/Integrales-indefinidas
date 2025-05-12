@@ -131,31 +131,41 @@ button:hover {
 }
 
 .step {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-left: 3px solid #3498db;
-    background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden;
 }
 
 .step-title {
-    font-weight: bold;
-    margin-bottom: 5px;
+  background-color: #f0f8ff;
+  padding: 10px 15px;
+  font-weight: bold;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .step-content {
-    margin-left: 10px;
+  padding: 15px;
 }
+
 /* Añadir al final del archivo styles.css */
 .formula {
-  color: #2ecc71; /* Verde para fórmulas */
+  font-family: 'Latin Modern Math', serif;
+  background-color: #f5f5f5;
+  padding: 5px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 3px 0;
 }
 
 .variable {
-  color: #3498db; /* Azul para variables */
+  color: #2980b9;
+  font-weight: bold;
 }
 
 .coef {
-  color: #e67e22; /* Naranja para coeficientes */
+  color: #d35400;
+  font-weight: bold;
 }
 
 .substitution {
@@ -169,10 +179,8 @@ button:hover {
 /* Estilos para las mejoras visuales de integrales */
 .integral-component {
   position: relative;
-  display: inline-block;
-  padding: 2px 4px;
-  border-radius: 3px;
-  transition: all 0.2s ease;
+  padding: 2px;
+  transition: background-color 0.3s;
 }
 
 .integral-component:hover {
@@ -180,21 +188,18 @@ button:hover {
 }
 
 .integral-component.coefficient {
-  background: linear-gradient(to bottom, #fff7e6, #ffe0b2);
-  border: 1px solid #e67e22;
-  color: #e67e22;
+  color: #d35400;
 }
 
 .integral-component.variable {
-  background: linear-gradient(to bottom, #e6f7ff, #b3e0ff);
-  border: 1px solid #3498db;
-  color: #3498db;
+  color: #2980b9;
 }
 
 .integral-component.exponent {
-  background: linear-gradient(to bottom, #e6fff7, #b3ffe0);
-  border: 1px solid #2ecc71;
-  color: #2ecc71;
+  color: #ff0000;
+  font-size: 0.8em;
+  position: relative;
+  top: -0.5em;
 }
 
 .integral-component.operation {
@@ -247,11 +252,14 @@ button:hover {
   border-left: 3px solid #3498db;
 }
 
+/* Estilo para los símbolos de integral triple */
 .integral-expression {
   font-size: 1.2em;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  padding: 5px 0;
+  line-height: 1.6;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .chart-container {
@@ -671,3 +679,26 @@ button:hover {
   content: "🔍";
   margin-right: 5px;
 }
+
+.limits-container {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Integrales triples: */
+#triple-form {
+  display: none;
+}
+
+#triple-form.active {
+  display: block;
+}
+
+.integral-component:hover, .integral-component:focus {
+  background-color: rgba(173, 216, 230, 0.3);
+  border-radius: 3px;
+}
+

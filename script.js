@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('main-content');
     const welcomeSound = document.getElementById('welcome-sound');
     
-    // AÑADE LAS FUNCIONES DE EASTER EGG AQUÍ
     // Función para crear y configurar los easter eggs
     function setupEasterEggs() {
         // Definir los easter eggs para cada tipo de integral
@@ -227,17 +226,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const trigForm = document.getElementById('trig-form');
     const expForm = document.getElementById('exp-form');
     const logForm = document.getElementById('log-form');
+    const tripleForm = document.getElementById('triple-form');
     
     // Referencia a los botones de cálculo
     const calculatePowerBtn = document.getElementById('calculate-power');
     const calculateTrigBtn = document.getElementById('calculate-trig');
     const calculateExpBtn = document.getElementById('calculate-exp');
     const calculateLogBtn = document.getElementById('calculate-log');
+    const calculateTripleBtn = document.getElementById('calculate-triple');
     
     // Función para mostrar el formulario correcto
     integralTypeSelect.addEventListener('change', function() {
         // Ocultar todos los formularios
-        [powerForm, trigForm, expForm, logForm].forEach(form => {
+        [powerForm, trigForm, expForm, logForm, tripleForm].forEach(form => {
             form.classList.remove('active');
         });
         
@@ -358,6 +359,26 @@ document.addEventListener('DOMContentLoaded', function() {
             
             resultDiv.innerHTML = `<p>${result}</p>`;
         }
+    });
+
+    calculateTripleBtn.addEventListener('click', function() {
+        // Obtener valores del formulario
+        const coefficient = parseFloat(document.getElementById('triple-coefficient').value) || 1;
+        const variableX = document.getElementById('triple-variable-x').value || 'x';
+        const variableY = document.getElementById('triple-variable-y').value || 'y';
+        const variableZ = document.getElementById('triple-variable-z').value || 'z';
+        const exponentX = parseFloat(document.getElementById('triple-exponent-x').value) || 0;
+        const exponentY = parseFloat(document.getElementById('triple-exponent-y').value) || 0;
+        const exponentZ = parseFloat(document.getElementById('triple-exponent-z').value) || 0;
+        
+        // Validar entradas
+        if (isNaN(exponentX) || isNaN(exponentY) || isNaN(exponentZ)) {
+            resultDiv.innerHTML = '<p>Por favor, introduce exponentes válidos.</p>';
+            return;
+        }
+        
+        // Mostrar los pasos y resultados
+        showTripleIntegrationSteps(coefficient, variableX, variableY, variableZ, exponentX, exponentY, exponentZ);
     });
 
     // Manejador para el cambio de tipo de función logarítmica
@@ -1083,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
         
-        // Actualizar el resultado con la versión mejorada
+        // Actualizar el resultado
         resultDiv.innerHTML = enhancedResult;
         
         // Paso 1: Identificar la forma y componentes
@@ -1252,5 +1273,162 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             console.error("No se pudieron definir las funciones para la gráfica");
         }
+    }
+    // Función para mostrar los pasos de una integral triple
+    function showTripleIntegrationSteps(coefficient, variableX, variableY, variableZ, exponentX, exponentY, exponentZ) {
+        const stepsContainer = document.getElementById('steps-container');
+        const stepsContent = document.getElementById('steps-content');
+        const resultDiv = document.getElementById('result');
+        
+        // Limpiar contenido anterior
+        stepsContent.innerHTML = '';
+        
+        // Mostrar el contenedor de pasos
+        stepsContainer.classList.add('active');
+        
+        // Calcular el resultado
+        const newExponentX = exponentX + 1;
+        const newExponentY = exponentY + 1;
+        const newExponentZ = exponentZ + 1;
+        
+        // Verificar casos especiales
+        if (exponentX === -1 || exponentY === -1 || exponentZ === -1) {
+            resultDiv.innerHTML = '<p>El caso de exponente -1 requiere tratamiento especial con logaritmos.</p>';
+            return;
+        }
+        
+        // Coeficientes para cada paso
+        let resultX = coefficient / newExponentX;
+        let resultY = resultX / newExponentY;
+        let resultZ = resultY / newExponentZ;
+        
+        // Crear una versión mejorada del resultado
+        let enhancedResult = `
+            <div class="integral-result">
+                <div class="integral-expression">
+                    ∭
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(coefficient)}
+                        <span class="integral-tooltip">Coeficiente: multiplicador constante</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableX}<sup>${exponentX}</sup>
+                        <span class="integral-tooltip">Primera variable con su exponente</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableY}<sup>${exponentY}</sup>
+                        <span class="integral-tooltip">Segunda variable con su exponente</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableZ}<sup>${exponentZ}</sup>
+                        <span class="integral-tooltip">Tercera variable con su exponente</span>
+                    </span>
+                    d<span class="integral-component variable">${variableZ}</span>
+                    d<span class="integral-component variable">${variableY}</span>
+                    d<span class="integral-component variable">${variableX}</span>
+                    <span class="integral-component operation">=</span>
+                    <span class="integral-component coefficient" tabindex="0">
+                        ${formatCoefficient(resultZ)}
+                        <span class="integral-tooltip">Coeficiente final</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableX}<sup>${newExponentX}</sup>
+                        <span class="integral-tooltip">Primera variable con exponente+1</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableY}<sup>${newExponentY}</sup>
+                        <span class="integral-tooltip">Segunda variable con exponente+1</span>
+                    </span>
+                    <span class="integral-component variable" tabindex="0">
+                        ${variableZ}<sup>${newExponentZ}</sup>
+                        <span class="integral-tooltip">Tercera variable con exponente+1</span>
+                    </span>
+                    + C
+                </div>
+            </div>
+        `;
+        
+        // Actualizar el resultado
+        resultDiv.innerHTML = enhancedResult;
+        
+        // Paso 1: Identificar la forma y componentes
+        const step1 = document.createElement('div');
+        step1.className = 'step';
+        step1.innerHTML = `
+            <div class="step-title">Paso 1: Identificar la forma y componentes</div>
+            <div class="step-content">
+                <p>La integral triple tiene la forma <span class="formula">∭A·${variableX}<sup>n</sup>·${variableY}<sup>m</sup>·${variableZ}<sup>p</sup> d${variableZ} d${variableY} d${variableX}</span>, donde:</p>
+                <p><span class="coef">A = ${coefficient}</span></p>
+                <p><span class="variable">n = ${exponentX}</span> (exponente de ${variableX})</p>
+                <p><span class="variable">m = ${exponentY}</span> (exponente de ${variableY})</p>
+                <p><span class="variable">p = ${exponentZ}</span> (exponente de ${variableZ})</p>
+            </div>
+        `;
+        stepsContent.appendChild(step1);
+        
+        // Paso 2: Explicar el enfoque
+        const step2 = document.createElement('div');
+        step2.className = 'step';
+        step2.innerHTML = `
+            <div class="step-title">Paso 2: Enfoque de resolución</div>
+            <div class="step-content">
+                <p>Para resolver una integral triple indefinida, integraremos las variables una por una en el siguiente orden:</p>
+                <p>1. Primero respecto a ${variableZ}</p>
+                <p>2. Luego respecto a ${variableY}</p>
+                <p>3. Finalmente respecto a ${variableX}</p>
+            </div>
+        `;
+        stepsContent.appendChild(step2);
+        
+        // Paso 3: Primera integración
+        const step3 = document.createElement('div');
+        step3.className = 'step';
+        step3.innerHTML = `
+            <div class="step-title">Paso 3: Integrar respecto a ${variableZ}</div>
+            <div class="step-content">
+                <p>Integramos <span class="formula">${formatCoefficient(coefficient)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>${variableZ}<sup>${exponentZ}</sup></span> respecto a ${variableZ}:</p>
+                <p><span class="formula">∫${formatCoefficient(coefficient)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>${variableZ}<sup>${exponentZ}</sup> d${variableZ} = ${formatCoefficient(coefficient)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>·${variableZ}<sup>${newExponentZ}</sup>/${newExponentZ} + C1</span></p>
+                <p><span class="formula">= ${formatCoefficient(resultX)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> + C1</span></p>
+            </div>
+        `;
+        stepsContent.appendChild(step3);
+        
+        // Paso 4: Segunda integración
+        const step4 = document.createElement('div');
+        step4.className = 'step';
+        step4.innerHTML = `
+            <div class="step-title">Paso 4: Integrar respecto a ${variableY}</div>
+            <div class="step-content">
+                <p>Ahora integramos el resultado anterior respecto a ${variableY}:</p>
+                <p><span class="formula">∫${formatCoefficient(resultX)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> d${variableY} = ${formatCoefficient(resultX)}${variableX}<sup>${exponentX}</sup>·${variableY}<sup>${newExponentY}</sup>/${newExponentY}·${variableZ}<sup>${newExponentZ}</sup> + C2</span></p>
+                <p><span class="formula">= ${formatCoefficient(resultY)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${newExponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> + C2</span></p>
+            </div>
+        `;
+        stepsContent.appendChild(step4);
+        
+        // Paso 5: Tercera integración
+        const step5 = document.createElement('div');
+        step5.className = 'step';
+        step5.innerHTML = `
+            <div class="step-title">Paso 5: Integrar respecto a ${variableX}</div>
+            <div class="step-content">
+                <p>Finalmente, integramos respecto a ${variableX}:</p>
+                <p><span class="formula">∫${formatCoefficient(resultY)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${newExponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> d${variableX} = ${formatCoefficient(resultY)}·${variableX}<sup>${newExponentX}</sup>/${newExponentX}·${variableY}<sup>${newExponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> + C3</span></p>
+                <p><span class="formula">= ${formatCoefficient(resultZ)}${variableX}<sup>${newExponentX}</sup>${variableY}<sup>${newExponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> + C</span></p>
+            </div>
+        `;
+        stepsContent.appendChild(step5);
+        
+        // Paso 6: Resultado final
+        const step6 = document.createElement('div');
+        step6.className = 'step';
+        step6.innerHTML = `
+            <div class="step-title">Paso 6: Resultado final</div>
+            <div class="step-content">
+                <p>El resultado de la integral triple es:</p>
+                <p><span class="formula">∭${formatCoefficient(coefficient)}${variableX}<sup>${exponentX}</sup>${variableY}<sup>${exponentY}</sup>${variableZ}<sup>${exponentZ}</sup> d${variableZ} d${variableY} d${variableX} = ${formatCoefficient(resultZ)}${variableX}<sup>${newExponentX}</sup>${variableY}<sup>${newExponentY}</sup>${variableZ}<sup>${newExponentZ}</sup> + C</span></p>
+            </div>
+        `;
+        stepsContent.appendChild(step6);
     }
 });

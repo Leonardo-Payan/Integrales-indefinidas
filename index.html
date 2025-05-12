@@ -19,10 +19,10 @@
         </div>
     </div>
           
-    <!-- Audio para efecto de sonido de inicio -->
+    <!-- Audio al iniciar el programa -->
     <audio id="welcome-sound" preload="auto" src="assets/sounds/japan_chime.wav"></audio>   
 
-    <!-- Justo después de la pantalla de bienvenida -->
+    <!-- Después de la pantalla de bienvenida -->
     <div id="main-content" class="main-content main-content-hidden">       
         <h1>Solucionador de Integrales Básicas</h1>
         <div class="container">
@@ -33,6 +33,7 @@
                     <option value="trig">Integral trigonométrica (∫A·sin(ax+b) dx)</option>
                     <option value="exp">Integral exponencial (∫A·eᵃˣ dx)</option>
                     <option value="log">Integral logarítmica (∫A/x dx)</option>
+                    <option value="triple">Integral triple (∫∫∫f(x,y,z) dz dy dx)</option>
                 </select>
             </div>
             
@@ -166,6 +167,49 @@
             </div>
             <button id="calculate-log">Calcular Integral</button>
         </div>
+        <!-- Formulario para integrales triples -->
+        <div id="triple-form" class="form-section">
+            <div class="info-box">
+                Fórmula: ∭A·xⁿ·yᵐ·zᵖ dx dy dz = A·xⁿ⁺¹·yᵐ⁺¹·zᵖ⁺¹/((n+1)(m+1)(p+1)) + C (para n,m,p ≠ -1)
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="triple-coefficient">Coeficiente (A):</label>
+                    <input type="text" id="triple-coefficient" placeholder="Ejemplo: 2" value="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="triple-variable-x">Primera variable:</label>
+                    <input type="text" id="triple-variable-x" placeholder="Ejemplo: x" value="x">
+                </div>
+                <div class="input-group">
+                    <label for="triple-exponent-x">Exponente de la primera variable:</label>
+                    <input type="text" id="triple-exponent-x" placeholder="Ejemplo: 1" value="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="triple-variable-y">Segunda variable:</label>
+                    <input type="text" id="triple-variable-y" placeholder="Ejemplo: y" value="y">
+                </div>
+                <div class="input-group">
+                    <label for="triple-exponent-y">Exponente de la segunda variable:</label>
+                    <input type="text" id="triple-exponent-y" placeholder="Ejemplo: 1" value="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="triple-variable-z">Tercera variable:</label>
+                    <input type="text" id="triple-variable-z" placeholder="Ejemplo: z" value="z">
+                </div>
+                <div class="input-group">
+                    <label for="triple-exponent-z">Exponente de la tercera variable:</label>
+                    <input type="text" id="triple-exponent-z" placeholder="Ejemplo: 1" value="1">
+                </div>
+            </div>
+            <button id="calculate-triple">Calcular Integral Triple</button>
+        </div>
             
             <div class="result" id="result">
                 <p>El resultado aparecerá aquí.</p>
@@ -173,11 +217,12 @@
             <div class="chart-container">
                 <canvas id="integralChart"></canvas>
             </div>
-        <!-- Añadir esto después de la div con id="result" -->
+
         <div class="step-by-step" id="steps-container">
             <h3>Solución paso a paso</h3>
             <div id="steps-content">
-                <!-- Aquí se mostrarán los pasos -->
+                
+                <!-- Aquí se muestran los pasos -->
             </div>
         </div>
         </div>
